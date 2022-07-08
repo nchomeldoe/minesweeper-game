@@ -90,5 +90,8 @@ const test = (e) => {
 
 resetButton.addEventListener("click", startNewGame);
 tileGrid.addEventListener("mousedown", test);
+tileGrid.addEventListener("touchmove", () => {
+  alert("moved!");
+});
 
 startNewGame();
