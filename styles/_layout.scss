@@ -1,0 +1,31 @@
+@use "./variables" as *;
+
+.outer-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+
+  .board {
+    width: 15rem;
+    height: 18rem;
+    border: 0.2rem solid gray;
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+
+    .tile-grid {
+      background-color: gray;
+      width: 100%;
+      border-top: 0.2rem solid gray;
+      display: grid;
+      grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 0.1rem;
+      .tile {
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

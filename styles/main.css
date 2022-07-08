@@ -1,0 +1,33 @@
+.outer-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
+.outer-container .board {
+  width: 15rem;
+  height: 18rem;
+  border: 0.2rem solid gray;
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+}
+.outer-container .board .tile-grid {
+  background-color: gray;
+  width: 100%;
+  border-top: 0.2rem solid gray;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0.1rem;
+}
+.outer-container .board .tile-grid .tile {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+* {
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}/*# sourceMappingURL=main.css.map */
