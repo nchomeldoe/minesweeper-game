@@ -10,6 +10,16 @@
   display: grid;
   grid-template-rows: 1fr 5fr;
 }
+.outer-container .board .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.outer-container .board .header__button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: lightgray;
+}
 .outer-container .board .tile-grid {
   background-color: gray;
   width: 100%;

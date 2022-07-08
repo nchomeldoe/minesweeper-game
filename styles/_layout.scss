@@ -12,6 +12,18 @@
     display: grid;
     grid-template-rows: 1fr 5fr;
 
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &__button {
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: lightgray;
+      }
+    }
+
     .tile-grid {
       background-color: gray;
       width: 100%;

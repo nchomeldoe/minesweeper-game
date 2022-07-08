@@ -1,4 +1,5 @@
 tileGrid = document.querySelector(".tile-grid");
+resetButton = document.querySelector("button");
 
 for (let i = 0; i < 81; i++) {
   tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
@@ -9,6 +10,7 @@ const tiles = document.querySelectorAll(".tile");
 const clearAll = () => {
   tiles.forEach((tile) => {
     tile.innerHTML = "";
+    tile.style.color = "";
   });
 };
 
@@ -76,3 +78,5 @@ const startNewGame = () => {
 };
 
 startNewGame();
+
+resetButton.addEventListener("click", startNewGame);
