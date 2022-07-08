@@ -88,10 +88,34 @@ const test = (e) => {
   }
 };
 
+let timer;
+const touchduration = 800;
+
+const touchstart = (e) => {
+  e.preventDefault();
+  if (!timer) {
+    timer = setTimeout(onlongtouch, touchduration);
+  }
+};
+
+const touchend = () => {
+  if (timer) {
+    clearTimeout(timer);
+    timer = null;
+  }
+};
+
+const onlongtouch = () => {
+  timer = null;
+  alert("long touch");
+};
+
 resetButton.addEventListener("click", startNewGame);
 tileGrid.addEventListener("mousedown", test);
-tileGrid.addEventListener("touchmove", () => {
-  alert("moved!");
-});
+// tileGrid.addEventListener("touchmove", () => {
+//   alert("moved!");
+// });
+tileGrid.addEventListener("touchstart", touchstart);
+tileGrid.addEventListener("touchend", touchend);
 
 startNewGame();
