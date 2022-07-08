@@ -77,6 +77,18 @@ const startNewGame = () => {
   displayNumbers();
 };
 
-startNewGame();
+const test = (e) => {
+  switch (e.which) {
+    case 1:
+      alert("left Mouse button pressed.");
+      break;
+    default:
+      alert("Right Mouse button pressed.");
+      break;
+  }
+};
 
 resetButton.addEventListener("click", startNewGame);
+tileGrid.addEventListener("mousedown", test);
+
+startNewGame();
