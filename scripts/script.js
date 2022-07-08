@@ -77,6 +77,18 @@ const startNewGame = () => {
   displayNumbers();
 };
 
+const gameOver = (e) => {
+  if (
+    e.target.innerHTML === `<i class="fa-solid fa-bomb"></i>` ||
+    e.target.className === "fa-solid fa-bomb"
+  ) {
+    e.target.style.backgroundColor = "red";
+  }
+  tiles.forEach((tile) => {
+    tile.removeEventListener("mousedown", gameOver);
+  });
+};
+
 const test = (e) => {
   switch (e.which) {
     case 1:
@@ -111,11 +123,14 @@ const onlongtouch = () => {
 };
 
 resetButton.addEventListener("click", startNewGame);
-tileGrid.addEventListener("mousedown", test);
+// tileGrid.addEventListener("mousedown", test);
 // tileGrid.addEventListener("touchmove", () => {
 //   alert("moved!");
-// });
-tileGrid.addEventListener("touchstart", touchstart);
-tileGrid.addEventListener("touchend", touchend);
+// // });
+// tileGrid.addEventListener("touchstart", touchstart);
+// tileGrid.addEventListener("touchend", touchend);
+tiles.forEach((tile) => {
+  tile.addEventListener("mousedown", gameOver);
+});
 
 startNewGame();
