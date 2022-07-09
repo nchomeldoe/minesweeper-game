@@ -20,6 +20,15 @@
   justify-content: center;
 }
 
+.header__clock {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .outer-container {
   display: flex;
   justify-content: center;

@@ -1,6 +1,16 @@
 const tileGrid = document.querySelector(".tile-grid");
 const resetButton = document.querySelector("button");
 const mineCounter = document.querySelector(".header__mine-counter");
+const clock = document.querySelector(".header__clock");
+
+let timerOn = false;
+
+const startCountingSeconds = () => {
+  if (timerOn) {
+    clock.innerHTML = Number(clock.innerHTML) + 1;
+    setTimeout(startCountingSeconds, 1000);
+  }
+};
 
 for (let i = 0; i < 81; i++) {
   tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
@@ -10,7 +20,9 @@ const tiles = document.querySelectorAll(".tile");
 
 const resetAll = () => {
   resetButton.innerHTML = `<i class="fa-solid fa-face-smile fa-xl"></i>`;
+  timerOn = false;
   mineCounter.innerHTML = 10;
+  clock.innerHTML = "0";
   tiles.forEach((tile) => {
     tile.innerHTML = "";
     tile.style.color = "";
@@ -62,24 +74,6 @@ const displayNumbers = () => {
     if (!tile.innerHTML) {
       let adjacentMines = 0;
       const adjacentTileIds = findAdjacentTiles(tile);
-      // const tileIdNo = Number(tile.id.substring(2));
-      // const tileDistances = !(tileIdNo % 9)
-      //   ? [-10, -9, -1, 8, 9]
-      //   : tileIdNo % 9 === 1
-      //   ? [-9, -8, 1, 9, 10]
-      //   : [-10, -9, -8, -1, 1, 8, 9, 10];
-      // tileDistances.forEach((distance) => {
-      //   if (tileIdNo + distance > 0 && tileIdNo + distance < 82) {
-      //     let checkedForMines = document.querySelector(
-      //       `#id${tileIdNo + distance}`,
-      //     );
-      //     if (
-      //       checkedForMines.innerHTML === `<i class="fa-solid fa-bomb"></i>`
-      //     ) {
-      //       adjacentMines++;
-      //     }
-      //   }
-      // });
       adjacentTileIds.forEach((tileId) => {
         let checkedForMines = document.querySelector(tileId);
         if (checkedForMines.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
@@ -136,6 +130,7 @@ const findAll = (number) => {
   });
   if (foundCount === number) {
     resetButton.innerHTML = `<i class="fa-solid fa-face-laugh-beam fa-xl"></i>`;
+    timerOn = false;
     tiles.forEach((tile) => {
       tile.removeEventListener("mousedown", handleClick);
       if (!tile.classList.contains("flagged")) {
@@ -171,10 +166,15 @@ const gameOver = (e) => {
       }
     });
     resetButton.innerHTML = `<i class="fa-solid fa-skull fa-xl"></i>`;
+    timerOn = false;
   }
 };
 
 const handleClick = (e) => {
+  if (clock.innerHTML === "0") {
+    timerOn = true;
+    startCountingSeconds();
+  }
   if (e.which === 1) {
     findAll(10);
     if (!e.target.classList.contains("flagged")) {
