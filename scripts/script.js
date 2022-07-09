@@ -22,7 +22,7 @@ let startTime;
 let endTime;
 
 const startTouchTimer = (e) => {
-  startTime = e.timestamp;
+  startTime = e.timeStamp;
   // e.preventDefault();
   // if (!touchTimer) {
   //   timer = setTimeout(onLongTouch, longTouchDuration);
@@ -30,8 +30,8 @@ const startTouchTimer = (e) => {
 };
 
 const determineTouchDuration = (e) => {
-  endTime = e.timestamp;
-  touchDuration = endTime - startTime;
+  endTime = e.timeStamp;
+  const touchDuration = endTime - startTime;
   touchDuration > 500 ? alert("long", touchDuration) : alert("short");
 };
 
