@@ -14,10 +14,37 @@ const clock = document.querySelector(".header__clock");
 const deviceRegEx =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
-const deviceType = deviceRegEx.test(navigator.userAgent) ? "mobile" : "desktop";
+const deviceType = deviceRegEx.test(navigator.userAgent) ? "mobile" : "other";
 
-console.log(navigator.userAgent);
-console.log(deviceType);
+// let touchTimer;
+// const longTouchDuration = 500;
+
+const startTouchTimer = (e) => {
+  const startTime = e.timestamp;
+  // e.preventDefault();
+  // if (!touchTimer) {
+  //   timer = setTimeout(onLongTouch, longTouchDuration);
+  // }
+};
+
+const determineTouchDuration = (e) => {
+  const endTime = e.timestamp;
+  const touchDuration = endTime - startTime;
+  alert(touchDuration);
+};
+
+// const endTouch = () => {
+//   if (timer) {
+//     clearTimeout(timer);
+//     timer = null;
+//   }
+// };
+
+// const onLongTouch = (e) => {
+//   timer = null;
+//   toggleFlag(e);
+//   findAll(10);
+// };
 
 // lay out 81 tiles
 for (let i = 0; i < 81; i++) {
@@ -216,49 +243,15 @@ const handleClick = (e) => {
   }
 };
 
-const test = (e) => {
-  switch (e.which) {
-    case 1:
-      alert("left Mouse button pressed.");
-      break;
-    default:
-      alert("Right Mouse button pressed.");
-      break;
-  }
-};
-
-let timer;
-const touchduration = 800;
-
-const touchstart = (e) => {
-  e.preventDefault();
-  if (!timer) {
-    timer = setTimeout(onlongtouch, touchduration);
-  }
-};
-
-const touchend = () => {
-  if (timer) {
-    clearTimeout(timer);
-    timer = null;
-  }
-};
-
-const onlongtouch = () => {
-  timer = null;
-  alert("long touch");
-};
-
 //event listeners
 resetButton.addEventListener("click", startNewGame);
-// tileGrid.addEventListener("mousedown", test);
-// tileGrid.addEventListener("touchmove", () => {
-//   alert("moved!");
-// // });
-// tileGrid.addEventListener("touchstart", touchstart);
-// tileGrid.addEventListener("touchend", touchend);
 tiles.forEach((tile) => {
-  tile.addEventListener("mousedown", handleClick);
+  if (deviceType === "other") {
+    tile.addEventListener("click", handleClick);
+  } else if (deviceType === "mobile") {
+    tile.addEventListener("touchstart", startTouchTimer);
+    tile.addEventListener("touchend", determineTouchDuration);
+  }
 });
 
 startNewGame();
