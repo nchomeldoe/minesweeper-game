@@ -1,16 +1,27 @@
+// innerHTML for various elements
+const smileyFace = `<i class="fa-solid fa-face-smile fa-xl"></i>`;
+const victoryFace = `<i class="fa-solid fa-face-laugh-beam fa-xl"></i>`;
+const defeatFace = `<i class="fa-solid fa-skull fa-xl"></i>`;
+const mineSymbol = `<i class="fa-solid fa-bomb"></i>`;
+
+// query selectors
 const tileGrid = document.querySelector(".tile-grid");
 const resetButton = document.querySelector("button");
 const mineCounter = document.querySelector(".header__mine-counter");
 const clock = document.querySelector(".header__clock");
 
+// lay out 81 tiles
 for (let i = 0; i < 81; i++) {
   tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
 }
 
+// query selector for tiles
 const tiles = document.querySelectorAll(".tile");
 
+// set timer to off
 let timerOn = false;
 
+// function for counting up in seconds
 const startCountingSeconds = () => {
   if (timerOn) {
     const newTime = Number(clock.innerHTML) + 1;
@@ -19,8 +30,9 @@ const startCountingSeconds = () => {
   }
 };
 
+// reset function
 const resetAll = () => {
-  resetButton.innerHTML = `<i class="fa-solid fa-face-smile fa-xl"></i>`;
+  resetButton.innerHTML = smileyFace;
   timerOn = false;
   mineCounter.innerHTML = "10";
   clock.innerHTML = "0";
@@ -38,6 +50,7 @@ const resetAll = () => {
   });
 };
 
+// find adjacent tiles depending on position of original tile
 const findAdjacentTiles = (tile) => {
   const tileIdNo = Number(tile.id.substring(2));
   const tileDistances = !(tileIdNo % 9)
@@ -54,22 +67,22 @@ const findAdjacentTiles = (tile) => {
   return adjacentTileIds;
 };
 
+// position mines randomly
 const positionMines = () => {
   const mineLocations = [];
-
   for (let i = 0; mineLocations.length < 10; i++) {
     let randomNum = Math.floor(Math.random() * 81 + 1);
     if (!mineLocations.includes(randomNum)) {
       mineLocations.push(randomNum);
     }
   }
-
   mineLocations.forEach((location) => {
     let matchingTile = document.querySelector(`#id${location}`);
-    matchingTile.innerHTML = `<i class="fa-solid fa-bomb"></i>`;
+    matchingTile.innerHTML = mineSymbol;
   });
 };
 
+// identify tiles that are next to mines and display how many mines they are next to
 const displayNumbers = () => {
   tiles.forEach((tile) => {
     if (!tile.innerHTML) {
@@ -77,7 +90,7 @@ const displayNumbers = () => {
       const adjacentTileIds = findAdjacentTiles(tile);
       adjacentTileIds.forEach((tileId) => {
         let checkedForMines = document.querySelector(tileId);
-        if (checkedForMines.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
+        if (checkedForMines.innerHTML === mineSymbol) {
           adjacentMines++;
         }
       });
@@ -99,16 +112,19 @@ const displayNumbers = () => {
   });
 };
 
+// set up new game
 const startNewGame = () => {
   resetAll();
   positionMines();
   displayNumbers();
 };
 
+// reveal tile
 const revealTile = (e) => {
   e.target.classList.remove("hidden");
 };
 
+// apply or remove warning symbol
 const toggleFlag = (e) => {
   if (e.target.classList.contains("flagged")) {
     e.target.classList.remove("flagged");
@@ -119,18 +135,16 @@ const toggleFlag = (e) => {
   }
 };
 
+// find all mines
 const findAll = (number) => {
   foundCount = 0;
   tiles.forEach((tile) => {
-    if (
-      tile.innerHTML === `<i class="fa-solid fa-bomb"></i>` &&
-      tile.classList.contains("flagged")
-    ) {
+    if (tile.innerHTML === mineSymbol && tile.classList.contains("flagged")) {
       foundCount += 1;
     }
   });
   if (foundCount === number) {
-    resetButton.innerHTML = `<i class="fa-solid fa-face-laugh-beam fa-xl"></i>`;
+    resetButton.innerHTML = victoryFace;
     timerOn = false;
     tiles.forEach((tile) => {
       tile.removeEventListener("mousedown", handleClick);
@@ -142,40 +156,42 @@ const findAll = (number) => {
   }
 };
 
+// clear adjecent blank or numbered tiles when a blank tile is clicked
 const clearAdjacentBlanks = (tile) => {
   if (!tile.innerHTML) {
     const adjacentTileIds = findAdjacentTiles(tile);
     adjacentTileIds.forEach((tileId) => {
       let checkedForBlanks = document.querySelector(tileId);
-      if (checkedForBlanks.innerHTML !== `<i class="fa-solid fa-bomb"></i>`) {
+      if (checkedForBlanks.innerHTML !== mineSymbol) {
         checkedForBlanks.classList.remove("hidden");
       }
     });
   }
 };
 
+// highlight clicked mine in red and reveal all other mines
 const gameOver = (e) => {
-  if (e.target.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
+  if (e.target.innerHTML === mineSymbol) {
     e.target.style.backgroundColor = "red";
     tiles.forEach((tile) => {
       tile.removeEventListener("mousedown", handleClick);
       if (
-        tile.innerHTML === `<i class="fa-solid fa-bomb"></i>` &&
+        tile.innerHTML === mineSymbol &&
         !tile.classList.contains("flagged")
       ) {
         tile.classList.remove("hidden");
       }
     });
-    resetButton.innerHTML = `<i class="fa-solid fa-skull fa-xl"></i>`;
+    resetButton.innerHTML = defeatFace;
     timerOn = false;
   }
 };
 
+// apply different functions depending which tile is clicked and which type of event
 const handleClick = (e) => {
   if (clock.innerHTML === "0") {
     timerOn = true;
     setTimeout(startCountingSeconds, 1000);
-    // startCountingSeconds();
   }
   if (e.which === 1) {
     findAll(10);
@@ -224,6 +240,7 @@ const onlongtouch = () => {
   alert("long touch");
 };
 
+//event listeners
 resetButton.addEventListener("click", startNewGame);
 // tileGrid.addEventListener("mousedown", test);
 // tileGrid.addEventListener("touchmove", () => {
