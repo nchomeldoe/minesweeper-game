@@ -32,7 +32,7 @@ const startTouchTimer = (e) => {
 const determineTouchDuration = (e) => {
   endTime = e.timestamp;
   touchDuration = endTime - startTime;
-  alert(touchDuration);
+  touchDuration > 500 ? alert("long", touchDuration) : alert("short");
 };
 
 // const endTouch = () => {
@@ -85,7 +85,7 @@ const resetAll = () => {
       tile.classList.remove("flagged");
     }
     if (deviceType === "other") {
-      tile.addEventListener("click", handleClick);
+      tile.addEventListener("mousedown", handleClick);
     } else if (deviceType === "mobile") {
       tile.addEventListener("touchstart", startTouchTimer);
       tile.addEventListener("touchend", determineTouchDuration);
@@ -190,7 +190,7 @@ const findAll = (number) => {
     resetButton.innerHTML = victoryFace;
     timerOn = false;
     tiles.forEach((tile) => {
-      tile.removeEventListener("click", handleClick);
+      tile.removeEventListener("mousedown", handleClick);
       if (!tile.classList.contains("flagged")) {
         tile.classList.remove("hidden");
         tile.style.backgroundColor = "palegreen";
@@ -217,7 +217,7 @@ const gameOver = (e) => {
   if (e.target.innerHTML === mineSymbol) {
     e.target.style.backgroundColor = "red";
     tiles.forEach((tile) => {
-      tile.removeEventListener("click", handleClick);
+      tile.removeEventListener("mousedown", handleClick);
       if (
         tile.innerHTML === mineSymbol &&
         !tile.classList.contains("flagged")
@@ -254,7 +254,7 @@ const handleClick = (e) => {
 resetButton.addEventListener("click", startNewGame);
 tiles.forEach((tile) => {
   if (deviceType === "other") {
-    tile.addEventListener("click", handleClick);
+    tile.addEventListener("mousedown", handleClick);
   } else if (deviceType === "mobile") {
     tile.addEventListener("touchstart", startTouchTimer);
     tile.addEventListener("touchend", determineTouchDuration);
