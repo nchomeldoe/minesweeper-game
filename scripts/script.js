@@ -18,9 +18,11 @@ const deviceType = deviceRegEx.test(navigator.userAgent) ? "mobile" : "other";
 
 // let touchTimer;
 // const longTouchDuration = 500;
+let startTime;
+let endTime;
 
 const startTouchTimer = (e) => {
-  const startTime = e.timestamp;
+  startTime = e.timestamp;
   // e.preventDefault();
   // if (!touchTimer) {
   //   timer = setTimeout(onLongTouch, longTouchDuration);
@@ -28,8 +30,8 @@ const startTouchTimer = (e) => {
 };
 
 const determineTouchDuration = (e) => {
-  const endTime = e.timestamp;
-  const touchDuration = endTime - startTime;
+  endTime = e.timestamp;
+  touchDuration = endTime - startTime;
   alert(touchDuration);
 };
 
@@ -82,7 +84,12 @@ const resetAll = () => {
     if (tile.classList.contains("flagged")) {
       tile.classList.remove("flagged");
     }
-    tile.addEventListener("mousedown", handleClick);
+    if (deviceType === "other") {
+      tile.addEventListener("click", handleClick);
+    } else if (deviceType === "mobile") {
+      tile.addEventListener("touchstart", startTouchTimer);
+      tile.addEventListener("touchend", determineTouchDuration);
+    }
   });
 };
 
@@ -183,7 +190,7 @@ const findAll = (number) => {
     resetButton.innerHTML = victoryFace;
     timerOn = false;
     tiles.forEach((tile) => {
-      tile.removeEventListener("mousedown", handleClick);
+      tile.removeEventListener("click", handleClick);
       if (!tile.classList.contains("flagged")) {
         tile.classList.remove("hidden");
         tile.style.backgroundColor = "palegreen";
@@ -210,7 +217,7 @@ const gameOver = (e) => {
   if (e.target.innerHTML === mineSymbol) {
     e.target.style.backgroundColor = "red";
     tiles.forEach((tile) => {
-      tile.removeEventListener("mousedown", handleClick);
+      tile.removeEventListener("click", handleClick);
       if (
         tile.innerHTML === mineSymbol &&
         !tile.classList.contains("flagged")
