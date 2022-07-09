@@ -10,6 +10,15 @@ const resetButton = document.querySelector("button");
 const mineCounter = document.querySelector(".header__mine-counter");
 const clock = document.querySelector(".header__clock");
 
+// detect device type and determine event types accordingly
+const deviceRegEx =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+const deviceType = deviceRegEx.test(navigator.userAgent) ? "mobile" : "desktop";
+
+console.log(navigator.userAgent);
+console.log(deviceType);
+
 // lay out 81 tiles
 for (let i = 0; i < 81; i++) {
   tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
