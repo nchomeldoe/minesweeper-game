@@ -10,43 +10,47 @@ const resetButton = document.querySelector("button");
 const mineCounter = document.querySelector(".header__mine-counter");
 const clock = document.querySelector(".header__clock");
 
-// detect device type and determine event types accordingly
+// detect device type
 const deviceRegEx =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
 const deviceType = deviceRegEx.test(navigator.userAgent) ? "mobile" : "other";
 
-// let touchTimer;
-// const longTouchDuration = 500;
+// time to detect short vs long touch events on mobile
 let startTime;
 let endTime;
 
 const startTouchTimer = (e) => {
   startTime = e.timeStamp;
-  // e.preventDefault();
-  // if (!touchTimer) {
-  //   timer = setTimeout(onLongTouch, longTouchDuration);
-  // }
 };
 
 const determineTouchDuration = (e) => {
   endTime = e.timeStamp;
   const touchDuration = endTime - startTime;
-  touchDuration > 500 ? alert("long", touchDuration) : alert("short");
+  return touchDuration > 600 ? "long" : "short";
+};
+// functions to add and remove event listeners for tiles based on device type
+const addTileEventListeners = () => {
+  tiles.forEach((tile) => {
+    if (deviceType === "other") {
+      tile.addEventListener("mousedown", handleClick);
+    } else if (deviceType === "mobile") {
+      tile.addEventListener("touchstart", startTouchTimer);
+      tile.addEventListener("touchend", handleClick);
+    }
+  });
 };
 
-// const endTouch = () => {
-//   if (timer) {
-//     clearTimeout(timer);
-//     timer = null;
-//   }
-// };
-
-// const onLongTouch = (e) => {
-//   timer = null;
-//   toggleFlag(e);
-//   findAll(10);
-// };
+const removeTileEventListeners = () => {
+  tiles.forEach((tile) => {
+    if (deviceType === "other") {
+      tile.removeEventListener("mousedown", handleClick);
+    } else if (deviceType === "mobile") {
+      tile.removeEventListener("touchstart", startTouchTimer);
+      tile.removeEventListener("touchend", handleClick);
+    }
+  });
+};
 
 // lay out 81 tiles
 for (let i = 0; i < 81; i++) {
@@ -63,7 +67,7 @@ let timerOn = false;
 const startCountingSeconds = () => {
   if (timerOn) {
     const newTime = Number(clock.innerHTML) + 1;
-    clock.innerHTML = newTime;
+    clock.innerHTML = newTime < 10 ? `0${newTime}` : newTime;
     setTimeout(startCountingSeconds, 1000);
   }
 };
@@ -73,7 +77,7 @@ const resetAll = () => {
   resetButton.innerHTML = smileyFace;
   timerOn = false;
   mineCounter.innerHTML = "10";
-  clock.innerHTML = "0";
+  clock.innerHTML = "00";
   tiles.forEach((tile) => {
     tile.innerHTML = "";
     tile.style.color = "";
@@ -84,13 +88,8 @@ const resetAll = () => {
     if (tile.classList.contains("flagged")) {
       tile.classList.remove("flagged");
     }
-    if (deviceType === "other") {
-      tile.addEventListener("mousedown", handleClick);
-    } else if (deviceType === "mobile") {
-      tile.addEventListener("touchstart", startTouchTimer);
-      tile.addEventListener("touchend", determineTouchDuration);
-    }
   });
+  addTileEventListeners();
 };
 
 // find adjacent tiles depending on position of original tile
@@ -189,8 +188,8 @@ const findAll = (number) => {
   if (foundCount === number) {
     resetButton.innerHTML = victoryFace;
     timerOn = false;
+    removeTileEventListeners();
     tiles.forEach((tile) => {
-      tile.removeEventListener("mousedown", handleClick);
       if (!tile.classList.contains("flagged")) {
         tile.classList.remove("hidden");
         tile.style.backgroundColor = "palegreen";
@@ -216,8 +215,8 @@ const clearAdjacentBlanks = (tile) => {
 const gameOver = (e) => {
   if (e.target.innerHTML === mineSymbol) {
     e.target.style.backgroundColor = "red";
+    removeTileEventListeners();
     tiles.forEach((tile) => {
-      tile.removeEventListener("mousedown", handleClick);
       if (
         tile.innerHTML === mineSymbol &&
         !tile.classList.contains("flagged")
@@ -232,11 +231,14 @@ const gameOver = (e) => {
 
 // apply different functions depending which tile is clicked and which type of event
 const handleClick = (e) => {
-  if (clock.innerHTML === "0") {
+  if (clock.innerHTML === "00") {
     timerOn = true;
     setTimeout(startCountingSeconds, 1000);
   }
-  if (e.which === 1) {
+  if (
+    (deviceType === "other" && e.which === 1) ||
+    (deviceType === "mobile" && determineTouchDuration(e) === "short")
+  ) {
     findAll(10);
     if (!e.target.classList.contains("flagged")) {
       revealTile(e);
@@ -252,13 +254,6 @@ const handleClick = (e) => {
 
 //event listeners
 resetButton.addEventListener("click", startNewGame);
-tiles.forEach((tile) => {
-  if (deviceType === "other") {
-    tile.addEventListener("mousedown", handleClick);
-  } else if (deviceType === "mobile") {
-    tile.addEventListener("touchstart", startTouchTimer);
-    tile.addEventListener("touchend", determineTouchDuration);
-  }
-});
+addTileEventListeners();
 
 startNewGame();
