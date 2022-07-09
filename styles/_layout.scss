@@ -37,6 +37,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        &.hidden {
+          background-color: gray;
+          font-size: 0;
+          border: 2px solid black;
+          * {
+            display: none;
+          }
+        }
+        &.flagged {
+          background-image: url("../skull-crossbones-solid.svg");
+          background-size: 80%;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
       }
     }
   }

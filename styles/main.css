@@ -1,3 +1,10 @@
+.fa-skull-crossbones {
+  z-index: 100;
+  display: inline;
+  justify-self: center;
+  align-self: center;
+}
+
 .outer-container {
   display: flex;
   justify-content: center;
@@ -34,6 +41,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.outer-container .board .tile-grid .tile.hidden {
+  background-color: gray;
+  font-size: 0;
+  border: 2px solid black;
+}
+.outer-container .board .tile-grid .tile.hidden * {
+  display: none;
+}
+.outer-container .board .tile-grid .tile.flagged {
+  background-image: url("../skull-crossbones-solid.svg");
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 * {

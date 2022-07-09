@@ -1,1 +1,8 @@
 @use "./variables" as *;
+
+.fa-skull-crossbones {
+  z-index: 100;
+  display: inline;
+  justify-self: center;
+  align-self: center;
+}

@@ -1,5 +1,5 @@
-tileGrid = document.querySelector(".tile-grid");
-resetButton = document.querySelector("button");
+const tileGrid = document.querySelector(".tile-grid");
+const resetButton = document.querySelector("button");
 
 for (let i = 0; i < 81; i++) {
   tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
@@ -7,10 +7,15 @@ for (let i = 0; i < 81; i++) {
 
 const tiles = document.querySelectorAll(".tile");
 
-const clearAll = () => {
+const resetAll = () => {
   tiles.forEach((tile) => {
     tile.innerHTML = "";
     tile.style.color = "";
+    tile.style.backgroundColor = "";
+    if (!tile.classList.contains("hidden")) {
+      tile.classList.add("hidden");
+    }
+    tile.addEventListener("mousedown", handleClick);
   });
 };
 
@@ -18,7 +23,6 @@ const positionMines = () => {
   const mineLocations = [];
 
   for (let i = 0; mineLocations.length < 10; i++) {
-    console.log(mineLocations.length);
     let randomNum = Math.floor(Math.random() * 81 + 1);
     if (!mineLocations.includes(randomNum)) {
       mineLocations.push(randomNum);
@@ -72,21 +76,35 @@ const displayNumbers = () => {
 };
 
 const startNewGame = () => {
-  clearAll();
+  resetAll();
   positionMines();
   displayNumbers();
 };
 
+const revealTile = (e) => {
+  e.target.classList.remove("hidden");
+};
+
 const gameOver = (e) => {
-  if (
-    e.target.innerHTML === `<i class="fa-solid fa-bomb"></i>` ||
-    e.target.className === "fa-solid fa-bomb"
-  ) {
+  if (e.target.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
     e.target.style.backgroundColor = "red";
+    tiles.forEach((tile) => {
+      tile.removeEventListener("mousedown", handleClick);
+      if (tile.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
+        tile.classList.remove("hidden");
+      }
+    });
   }
-  tiles.forEach((tile) => {
-    tile.removeEventListener("mousedown", gameOver);
-  });
+};
+
+const handleClick = (e) => {
+  if (e.which === 1) {
+    revealTile(e);
+    gameOver(e);
+  } else {
+    // e.target.outerHTML = `<i class="fa-solid fa-skull-crossbones"></i>`;
+    e.target.classList.add("flagged");
+  }
 };
 
 const test = (e) => {
@@ -130,7 +148,7 @@ resetButton.addEventListener("click", startNewGame);
 // tileGrid.addEventListener("touchstart", touchstart);
 // tileGrid.addEventListener("touchend", touchend);
 tiles.forEach((tile) => {
-  tile.addEventListener("mousedown", gameOver);
+  tile.addEventListener("mousedown", handleClick);
 });
 
 startNewGame();
