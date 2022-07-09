@@ -23,6 +23,22 @@ const resetAll = () => {
   });
 };
 
+const findAdjacentTiles = (tile) => {
+  const tileIdNo = Number(tile.id.substring(2));
+  const tileDistances = !(tileIdNo % 9)
+    ? [-10, -9, -1, 8, 9]
+    : tileIdNo % 9 === 1
+    ? [-9, -8, 1, 9, 10]
+    : [-10, -9, -8, -1, 1, 8, 9, 10];
+  const adjacentTileIds = [];
+  tileDistances.forEach((distance) => {
+    if (tileIdNo + distance > 0 && tileIdNo + distance < 82) {
+      adjacentTileIds.push(`#id${tileIdNo + distance}`);
+    }
+  });
+  return adjacentTileIds;
+};
+
 const positionMines = () => {
   const mineLocations = [];
 
@@ -42,26 +58,33 @@ const positionMines = () => {
 const displayNumbers = () => {
   tiles.forEach((tile) => {
     if (!tile.innerHTML) {
-      let adjacentBombs = 0;
-      const tileIdNo = Number(tile.id.substring(2));
-      const tileDistances = !(tileIdNo % 9)
-        ? [-10, -9, -1, 8, 9]
-        : tileIdNo % 9 === 1
-        ? [-9, -8, 1, 9, 10]
-        : [-10, -9, -8, -1, 1, 8, 9, 10];
-      tileDistances.forEach((distance) => {
-        if (tileIdNo + distance > 0 && tileIdNo + distance < 82) {
-          let checkedForMines = document.querySelector(
-            `#id${tileIdNo + distance}`,
-          );
-          if (
-            checkedForMines.innerHTML === `<i class="fa-solid fa-bomb"></i>`
-          ) {
-            adjacentBombs++;
-          }
+      let adjacentMines = 0;
+      const adjacentTileIds = findAdjacentTiles(tile);
+      // const tileIdNo = Number(tile.id.substring(2));
+      // const tileDistances = !(tileIdNo % 9)
+      //   ? [-10, -9, -1, 8, 9]
+      //   : tileIdNo % 9 === 1
+      //   ? [-9, -8, 1, 9, 10]
+      //   : [-10, -9, -8, -1, 1, 8, 9, 10];
+      // tileDistances.forEach((distance) => {
+      //   if (tileIdNo + distance > 0 && tileIdNo + distance < 82) {
+      //     let checkedForMines = document.querySelector(
+      //       `#id${tileIdNo + distance}`,
+      //     );
+      //     if (
+      //       checkedForMines.innerHTML === `<i class="fa-solid fa-bomb"></i>`
+      //     ) {
+      //       adjacentMines++;
+      //     }
+      //   }
+      // });
+      adjacentTileIds.forEach((tileId) => {
+        let checkedForMines = document.querySelector(tileId);
+        if (checkedForMines.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
+          adjacentMines++;
         }
       });
-      tile.innerHTML = adjacentBombs ? adjacentBombs : "";
+      tile.innerHTML = adjacentMines ? adjacentMines : "";
       if (tile.innerHTML === "1") {
         tile.style.color = "blue";
       } else if (tile.innerHTML === "2") {
@@ -117,6 +140,22 @@ const findAll = (number) => {
   }
 };
 
+const clearAdjacentBlanks = (tile) => {
+  if (!tile.innerHTML) {
+    console.log("here");
+    const adjacentTileIds = findAdjacentTiles(tile);
+    console.log(adjacentTileIds);
+    adjacentTileIds.forEach((tileId) => {
+      let checkedForBlanks = document.querySelector(tileId);
+      if (checkedForBlanks.innerHTML !== `<i class="fa-solid fa-bomb"></i>`) {
+        // console.log(checkedForBlanks);
+        checkedForBlanks.classList.remove("hidden");
+        // clearAdjacentBlanks(checkedForBlanks);
+      }
+    });
+  }
+};
+
 const gameOver = (e) => {
   if (e.target.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
     e.target.style.backgroundColor = "red";
@@ -138,6 +177,7 @@ const handleClick = (e) => {
     findAll(10);
     if (!e.target.classList.contains("flagged")) {
       revealTile(e);
+      clearAdjacentBlanks(e.target);
       gameOver(e);
       findAll();
     }
