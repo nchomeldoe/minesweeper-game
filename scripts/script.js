@@ -15,6 +15,9 @@ const resetAll = () => {
     if (!tile.classList.contains("hidden")) {
       tile.classList.add("hidden");
     }
+    if (tile.classList.contains("flagged")) {
+      tile.classList.remove("flagged");
+    }
     tile.addEventListener("mousedown", handleClick);
   });
 };
@@ -85,25 +88,53 @@ const revealTile = (e) => {
   e.target.classList.remove("hidden");
 };
 
+const toggleFlag = (e) => {
+  e.target.classList.contains("flagged")
+    ? e.target.classList.remove("flagged")
+    : e.target.classList.add("flagged");
+};
+
+const findAll = () => {
+  foundCount = 0;
+  tiles.forEach((tile) => {
+    if (
+      tile.innerHTML === `<i class="fa-solid fa-bomb"></i>` &&
+      tile.classList.contains("flagged")
+    ) {
+      foundCount += 1;
+    }
+  });
+  return foundCount;
+};
+
 const gameOver = (e) => {
   if (e.target.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
     e.target.style.backgroundColor = "red";
     tiles.forEach((tile) => {
       tile.removeEventListener("mousedown", handleClick);
-      if (tile.innerHTML === `<i class="fa-solid fa-bomb"></i>`) {
+      if (
+        tile.innerHTML === `<i class="fa-solid fa-bomb"></i>` &&
+        !tile.classList.contains("flagged")
+      ) {
         tile.classList.remove("hidden");
       }
     });
+  } else {
+    if (findAll() === 10) {
+      alert("You won!");
+    }
   }
 };
 
 const handleClick = (e) => {
   if (e.which === 1) {
-    revealTile(e);
-    gameOver(e);
+    if (!e.target.classList.contains("flagged")) {
+      revealTile(e);
+      gameOver(e);
+      findAll();
+    }
   } else {
-    // e.target.outerHTML = `<i class="fa-solid fa-skull-crossbones"></i>`;
-    e.target.classList.add("flagged");
+    toggleFlag(e);
   }
 };
 
