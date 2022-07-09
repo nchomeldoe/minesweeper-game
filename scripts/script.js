@@ -3,25 +3,26 @@ const resetButton = document.querySelector("button");
 const mineCounter = document.querySelector(".header__mine-counter");
 const clock = document.querySelector(".header__clock");
 
-let timerOn = false;
-
-const startCountingSeconds = () => {
-  if (timerOn) {
-    clock.innerHTML = Number(clock.innerHTML) + 1;
-    setTimeout(startCountingSeconds, 1000);
-  }
-};
-
 for (let i = 0; i < 81; i++) {
   tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
 }
 
 const tiles = document.querySelectorAll(".tile");
 
+let timerOn = false;
+
+const startCountingSeconds = () => {
+  if (timerOn) {
+    const newTime = Number(clock.innerHTML) + 1;
+    clock.innerHTML = newTime;
+    setTimeout(startCountingSeconds, 1000);
+  }
+};
+
 const resetAll = () => {
   resetButton.innerHTML = `<i class="fa-solid fa-face-smile fa-xl"></i>`;
   timerOn = false;
-  mineCounter.innerHTML = 10;
+  mineCounter.innerHTML = "10";
   clock.innerHTML = "0";
   tiles.forEach((tile) => {
     tile.innerHTML = "";
@@ -173,7 +174,8 @@ const gameOver = (e) => {
 const handleClick = (e) => {
   if (clock.innerHTML === "0") {
     timerOn = true;
-    startCountingSeconds();
+    setTimeout(startCountingSeconds, 1000);
+    // startCountingSeconds();
   }
   if (e.which === 1) {
     findAll(10);
