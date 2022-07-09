@@ -5,6 +5,21 @@
   align-self: center;
 }
 
+.header__button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: lightgray;
+}
+
+.header__mine-counter {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .outer-container {
   display: flex;
   justify-content: center;
@@ -19,13 +34,9 @@
 }
 .outer-container .board .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-}
-.outer-container .board .header__button {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: lightgray;
+  margin: 0.2rem;
 }
 .outer-container .board .tile-grid {
   background-color: gray;

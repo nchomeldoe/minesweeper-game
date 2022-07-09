@@ -14,14 +14,9 @@
 
     .header {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-
-      &__button {
-        width: 2.5rem;
-        height: 2.5rem;
-        background-color: lightgray;
-      }
+      margin: 0.2rem;
     }
 
     .tile-grid {

@@ -6,3 +6,18 @@
   justify-self: center;
   align-self: center;
 }
+
+.header__button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: lightgray;
+}
+
+.header__mine-counter {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

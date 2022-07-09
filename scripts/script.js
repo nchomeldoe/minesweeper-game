@@ -1,5 +1,6 @@
 const tileGrid = document.querySelector(".tile-grid");
 const resetButton = document.querySelector("button");
+const mineCounter = document.querySelector(".header__mine-counter");
 
 for (let i = 0; i < 81; i++) {
   tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
@@ -9,6 +10,7 @@ const tiles = document.querySelectorAll(".tile");
 
 const resetAll = () => {
   resetButton.innerHTML = `<i class="fa-solid fa-face-smile fa-xl"></i>`;
+  mineCounter.innerHTML = 10;
   tiles.forEach((tile) => {
     tile.innerHTML = "";
     tile.style.color = "";
@@ -113,9 +115,13 @@ const revealTile = (e) => {
 };
 
 const toggleFlag = (e) => {
-  e.target.classList.contains("flagged")
-    ? e.target.classList.remove("flagged")
-    : e.target.classList.add("flagged");
+  if (e.target.classList.contains("flagged")) {
+    e.target.classList.remove("flagged");
+    mineCounter.innerHTML = Number(mineCounter.innerHTML) + 1;
+  } else {
+    e.target.classList.add("flagged");
+    mineCounter.innerHTML = Number(mineCounter.innerHTML) - 1;
+  }
 };
 
 const findAll = (number) => {
@@ -142,15 +148,11 @@ const findAll = (number) => {
 
 const clearAdjacentBlanks = (tile) => {
   if (!tile.innerHTML) {
-    console.log("here");
     const adjacentTileIds = findAdjacentTiles(tile);
-    console.log(adjacentTileIds);
     adjacentTileIds.forEach((tileId) => {
       let checkedForBlanks = document.querySelector(tileId);
       if (checkedForBlanks.innerHTML !== `<i class="fa-solid fa-bomb"></i>`) {
-        // console.log(checkedForBlanks);
         checkedForBlanks.classList.remove("hidden");
-        // clearAdjacentBlanks(checkedForBlanks);
       }
     });
   }
