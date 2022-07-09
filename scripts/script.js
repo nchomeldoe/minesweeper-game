@@ -8,6 +8,7 @@ for (let i = 0; i < 81; i++) {
 const tiles = document.querySelectorAll(".tile");
 
 const resetAll = () => {
+  resetButton.innerHTML = `<i class="fa-solid fa-face-smile fa-xl"></i>`;
   tiles.forEach((tile) => {
     tile.innerHTML = "";
     tile.style.color = "";
@@ -94,7 +95,7 @@ const toggleFlag = (e) => {
     : e.target.classList.add("flagged");
 };
 
-const findAll = () => {
+const findAll = (number) => {
   foundCount = 0;
   tiles.forEach((tile) => {
     if (
@@ -104,7 +105,16 @@ const findAll = () => {
       foundCount += 1;
     }
   });
-  return foundCount;
+  if (foundCount === number) {
+    resetButton.innerHTML = `<i class="fa-solid fa-face-laugh-beam fa-xl"></i>`;
+    tiles.forEach((tile) => {
+      tile.removeEventListener("mousedown", handleClick);
+      if (!tile.classList.contains("flagged")) {
+        tile.classList.remove("hidden");
+        tile.style.backgroundColor = "palegreen";
+      }
+    });
+  }
 };
 
 const gameOver = (e) => {
@@ -119,15 +129,13 @@ const gameOver = (e) => {
         tile.classList.remove("hidden");
       }
     });
-  } else {
-    if (findAll() === 10) {
-      alert("You won!");
-    }
+    resetButton.innerHTML = `<i class="fa-solid fa-skull fa-xl"></i>`;
   }
 };
 
 const handleClick = (e) => {
   if (e.which === 1) {
+    findAll(10);
     if (!e.target.classList.contains("flagged")) {
       revealTile(e);
       gameOver(e);
@@ -135,6 +143,7 @@ const handleClick = (e) => {
     }
   } else {
     toggleFlag(e);
+    findAll(10);
   }
 };
 
