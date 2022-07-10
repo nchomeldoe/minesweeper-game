@@ -164,6 +164,10 @@ const startNewGame = () => {
 // reveal tile
 const revealTile = (e) => {
   e.target.classList.remove("hidden");
+  if (deviceType === "mobile") {
+    e.target.removeEventListener("touchstart", startTouchTimer);
+    e.target.removeEventListener("touchend", handleClick);
+  }
 };
 
 // apply or remove warning symbol
@@ -247,6 +251,7 @@ const handleClick = (e) => {
       findAll();
     }
   } else {
+    e.stopPropagation();
     toggleFlag(e);
     findAll(10);
   }
