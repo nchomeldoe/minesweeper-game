@@ -16,7 +16,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 0.2rem;
+      padding: 0.2rem;
+      background-color: lightgray;
+      box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem white inset,
+        0.05rem 0.05rem 0.05rem 0.05rem gray inset;
     }
 
     .tile-grid {
@@ -32,17 +35,25 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        font-family: $numbers-font;
+        font-size: $numbers-font-size;
         &.hidden {
           background-color: gray;
           font-size: 0;
-          border: 2px solid black;
+          // border: 2px solid black;
+          box-shadow: -0.08rem -0.08rem 0.08rem 0.08rem black inset,
+            0.08rem 0.08rem 0.08rem 0.08rem white inset;
           * {
             display: none;
+          }
+          &:active {
+            box-shadow: -0.04rem -0.04rem 0.04rem 0.04rem black inset,
+              0.08rem 0.08rem 0.08rem 0.08rem black inset;
           }
         }
         &.flagged {
           background-image: url("../assets/skull-crossbones-solid.svg");
-          background-size: 80%;
+          background-size: 60%;
           background-repeat: no-repeat;
           background-position: center;
         }

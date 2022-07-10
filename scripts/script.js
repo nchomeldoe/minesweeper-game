@@ -33,7 +33,7 @@ const determineTouchDuration = (e) => {
 const addTileEventListeners = () => {
   tiles.forEach((tile) => {
     if (deviceType === "other") {
-      tile.addEventListener("mousedown", handleClick);
+      tile.addEventListener("mouseup", handleClick);
     } else if (deviceType === "mobile") {
       tile.addEventListener("touchstart", startTouchTimer);
       tile.addEventListener("touchend", handleClick);
@@ -44,7 +44,7 @@ const addTileEventListeners = () => {
 const removeTileEventListeners = () => {
   tiles.forEach((tile) => {
     if (deviceType === "other") {
-      tile.removeEventListener("mousedown", handleClick);
+      tile.removeEventListener("mouseup", handleClick);
     } else if (deviceType === "mobile") {
       tile.removeEventListener("touchstart", startTouchTimer);
       tile.removeEventListener("touchend", handleClick);
@@ -77,6 +77,7 @@ const resetAll = () => {
   resetButton.innerHTML = smileyFace;
   timerOn = false;
   mineCounter.innerHTML = "10";
+  mineCounter.style.backgroundColor = "";
   clock.innerHTML = "00";
   tiles.forEach((tile) => {
     tile.innerHTML = "";
@@ -164,9 +165,22 @@ const startNewGame = () => {
 // reveal tile
 const revealTile = (e) => {
   e.target.classList.remove("hidden");
-  if (deviceType === "mobile") {
-    e.target.removeEventListener("touchstart", startTouchTimer);
-    e.target.removeEventListener("touchend", handleClick);
+};
+
+// change mine counter and make background red if number drops below 0
+const changeMineCounter = (direction) => {
+  const mineCount = Number(mineCounter.innerHTML);
+  console.log(mineCount);
+  const newMineCount = direction === "down" ? mineCount - 1 : mineCount + 1;
+  if (newMineCount < 10 && newMineCount >= 0) {
+    mineCounter.innerHTML = `0${newMineCount}`;
+  } else {
+    mineCounter.innerHTML = `${newMineCount}`;
+  }
+  if (newMineCount < 0) {
+    mineCounter.style.backgroundColor = "red";
+  } else {
+    mineCounter.style.backgroundColor = "";
   }
 };
 
@@ -174,10 +188,10 @@ const revealTile = (e) => {
 const toggleFlag = (e) => {
   if (e.target.classList.contains("flagged")) {
     e.target.classList.remove("flagged");
-    mineCounter.innerHTML = Number(mineCounter.innerHTML) + 1;
+    changeMineCounter("up");
   } else {
     e.target.classList.add("flagged");
-    mineCounter.innerHTML = Number(mineCounter.innerHTML) - 1;
+    changeMineCounter("down");
   }
 };
 
@@ -261,4 +275,5 @@ const handleClick = (e) => {
 resetButton.addEventListener("click", startNewGame);
 addTileEventListeners();
 
+// start new game on page load
 startNewGame();

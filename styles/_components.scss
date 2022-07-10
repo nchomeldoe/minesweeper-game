@@ -11,22 +11,36 @@
   width: 2.5rem;
   height: 2.5rem;
   background-color: lightgray;
+  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset,
+    0.1rem 0.1rem 0.1rem 0.1rem white inset;
+  &:active {
+    box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem gray inset,
+      0.1rem 0.1rem 0.1rem 0.1rem gray inset;
+  }
 }
 
 .header__mine-counter {
   width: 2.5rem;
   height: 2.5rem;
-  background-color: lightgray;
+  background-color: palegreen;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset,
+    0.1rem 0.1rem 0.1rem 0.1rem gray inset;
+  font-family: $numbers-font;
+  font-size: $numbers-font-size;
 }
 
 .header__clock {
   width: 2.5rem;
   height: 2.5rem;
-  background-color: lightgray;
+  background-color: palegreen;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset,
+    0.1rem 0.1rem 0.1rem 0.1rem gray inset;
+  font-family: $numbers-font;
+  font-size: $numbers-font-size;
 }
