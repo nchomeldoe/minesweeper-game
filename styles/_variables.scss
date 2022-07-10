@@ -2,3 +2,19 @@
 
 $numbers-font: "Inconsolata", monospace;
 $numbers-font-size: 20px;
+
+$color-primary: gray;
+$color-seconday: lightgray;
+$color-tertiary: white;
+$color-tile-shadow: black;
+
+@mixin header-element($color-shadow: $color-primary) {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: $color-seconday;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem $color-primary inset,
+    0.1rem 0.1rem 0.1rem 0.1rem $color-shadow inset;
+}

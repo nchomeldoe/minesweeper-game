@@ -16,7 +16,7 @@ const deviceRegEx =
 
 const deviceType = deviceRegEx.test(navigator.userAgent) ? "mobile" : "other";
 
-// time to detect short vs long touch events on mobile
+// timer to detect short vs long touch events on mobile
 let startTime;
 let endTime;
 
@@ -29,6 +29,7 @@ const determineTouchDuration = (e) => {
   const touchDuration = endTime - startTime;
   return touchDuration > 600 ? "long" : "short";
 };
+
 // functions to add and remove event listeners for tiles based on device type
 const addTileEventListeners = () => {
   tiles.forEach((tile) => {
@@ -170,7 +171,6 @@ const revealTile = (e) => {
 // change mine counter and make background red if number drops below 0
 const changeMineCounter = (direction) => {
   const mineCount = Number(mineCounter.innerHTML);
-  console.log(mineCount);
   const newMineCount = direction === "down" ? mineCount - 1 : mineCount + 1;
   if (newMineCount < 10 && newMineCount >= 0) {
     mineCounter.innerHTML = `0${newMineCount}`;
@@ -196,7 +196,7 @@ const toggleFlag = (e) => {
 };
 
 // find all mines
-const findAll = (number) => {
+const findAllMines = (number) => {
   foundCount = 0;
   tiles.forEach((tile) => {
     if (tile.innerHTML === mineSymbol && tile.classList.contains("flagged")) {
@@ -257,17 +257,15 @@ const handleClick = (e) => {
     (deviceType === "other" && e.which === 1) ||
     (deviceType === "mobile" && determineTouchDuration(e) === "short")
   ) {
-    findAll(10);
+    findAllMines(10);
     if (!e.target.classList.contains("flagged")) {
       revealTile(e);
       clearAdjacentBlanks(e.target);
       gameOver(e);
-      findAll();
     }
   } else {
-    e.stopPropagation();
     toggleFlag(e);
-    findAll(10);
+    findAllMines(10);
   }
 };
 

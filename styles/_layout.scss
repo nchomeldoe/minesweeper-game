@@ -8,7 +8,7 @@
   .board {
     width: 15rem;
     height: 18rem;
-    border: 0.2rem solid gray;
+    border: 0.2rem solid $color-primary;
     display: grid;
     grid-template-rows: 1fr 5fr;
 
@@ -17,47 +17,19 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.2rem;
-      background-color: lightgray;
-      box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem white inset,
-        0.05rem 0.05rem 0.05rem 0.05rem gray inset;
+      background-color: $color-seconday;
+      box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem $color-tertiary inset,
+        0.05rem 0.05rem 0.05rem 0.05rem $color-primary inset;
     }
 
     .tile-grid {
-      background-color: gray;
+      background-color: $color-primary;
       width: 100%;
-      border-top: 0.2rem solid gray;
+      border-top: 0.2rem solid $color-primary;
       display: grid;
       grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       gap: 0.1rem;
-      .tile {
-        background-color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: $numbers-font;
-        font-size: $numbers-font-size;
-        &.hidden {
-          background-color: gray;
-          font-size: 0;
-          // border: 2px solid black;
-          box-shadow: -0.08rem -0.08rem 0.08rem 0.08rem black inset,
-            0.08rem 0.08rem 0.08rem 0.08rem white inset;
-          * {
-            display: none;
-          }
-          &:active {
-            box-shadow: -0.04rem -0.04rem 0.04rem 0.04rem black inset,
-              0.08rem 0.08rem 0.08rem 0.08rem black inset;
-          }
-        }
-        &.flagged {
-          background-image: url("../assets/skull-crossbones-solid.svg");
-          background-size: 60%;
-          background-repeat: no-repeat;
-          background-position: center;
-        }
-      }
     }
   }
 }

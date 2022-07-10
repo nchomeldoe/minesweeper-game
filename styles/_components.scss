@@ -1,46 +1,52 @@
 @use "./variables" as *;
 
 .fa-skull-crossbones {
-  z-index: 100;
   display: inline;
   justify-self: center;
   align-self: center;
 }
 
-.header__button {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: lightgray;
-  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset,
-    0.1rem 0.1rem 0.1rem 0.1rem white inset;
-  &:active {
-    box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem gray inset,
-      0.1rem 0.1rem 0.1rem 0.1rem gray inset;
+.header {
+  &__button {
+    @include header-element($color-tertiary);
+    &:active {
+      box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem $color-primary inset,
+        0.1rem 0.1rem 0.1rem 0.1rem $color-primary inset;
+    }
+  }
+
+  &__mine-counter,
+  &__clock {
+    @include header-element;
+    font-family: $numbers-font;
+    font-size: $numbers-font-size;
   }
 }
 
-.header__mine-counter {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: palegreen;
+.tile {
+  background-color: $color-tertiary;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset,
-    0.1rem 0.1rem 0.1rem 0.1rem gray inset;
   font-family: $numbers-font;
   font-size: $numbers-font-size;
-}
-
-.header__clock {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: palegreen;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset,
-    0.1rem 0.1rem 0.1rem 0.1rem gray inset;
-  font-family: $numbers-font;
-  font-size: $numbers-font-size;
+  &.hidden {
+    background-color: $color-primary;
+    font-size: 0;
+    box-shadow: -0.08rem -0.08rem 0.08rem 0.08rem $color-tile-shadow inset,
+      0.08rem 0.08rem 0.08rem 0.08rem $color-tertiary inset;
+    * {
+      display: none;
+    }
+    &:active {
+      box-shadow: -0.04rem -0.04rem 0.04rem 0.04rem $color-tile-shadow inset,
+        0.08rem 0.08rem 0.08rem 0.08rem $color-tile-shadow inset;
+    }
+  }
+  &.flagged {
+    background-image: url("../assets/skull-crossbones-solid.svg");
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }

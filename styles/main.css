@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&display=swap");
 .fa-skull-crossbones {
-  z-index: 100;
   display: inline;
   justify-self: center;
   align-self: center;
@@ -10,16 +9,18 @@
   width: 2.5rem;
   height: 2.5rem;
   background-color: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset, 0.1rem 0.1rem 0.1rem 0.1rem white inset;
 }
 .header__button:active {
   box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem gray inset, 0.1rem 0.1rem 0.1rem 0.1rem gray inset;
 }
-
-.header__mine-counter {
+.header__mine-counter, .header__clock {
   width: 2.5rem;
   height: 2.5rem;
-  background-color: palegreen;
+  background-color: lightgray;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,16 +29,30 @@
   font-size: 20px;
 }
 
-.header__clock {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: palegreen;
+.tile {
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset, 0.1rem 0.1rem 0.1rem 0.1rem gray inset;
   font-family: "Inconsolata", monospace;
   font-size: 20px;
+}
+.tile.hidden {
+  background-color: gray;
+  font-size: 0;
+  box-shadow: -0.08rem -0.08rem 0.08rem 0.08rem black inset, 0.08rem 0.08rem 0.08rem 0.08rem white inset;
+}
+.tile.hidden * {
+  display: none;
+}
+.tile.hidden:active {
+  box-shadow: -0.04rem -0.04rem 0.04rem 0.04rem black inset, 0.08rem 0.08rem 0.08rem 0.08rem black inset;
+}
+.tile.flagged {
+  background-image: url("../assets/skull-crossbones-solid.svg");
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .outer-container {
@@ -68,31 +83,6 @@
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 0.1rem;
-}
-.outer-container .board .tile-grid .tile {
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Inconsolata", monospace;
-  font-size: 20px;
-}
-.outer-container .board .tile-grid .tile.hidden {
-  background-color: gray;
-  font-size: 0;
-  box-shadow: -0.08rem -0.08rem 0.08rem 0.08rem black inset, 0.08rem 0.08rem 0.08rem 0.08rem white inset;
-}
-.outer-container .board .tile-grid .tile.hidden * {
-  display: none;
-}
-.outer-container .board .tile-grid .tile.hidden:active {
-  box-shadow: -0.04rem -0.04rem 0.04rem 0.04rem black inset, 0.08rem 0.08rem 0.08rem 0.08rem black inset;
-}
-.outer-container .board .tile-grid .tile.flagged {
-  background-image: url("../assets/skull-crossbones-solid.svg");
-  background-size: 60%;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 * {
