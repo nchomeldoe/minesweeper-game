@@ -35,6 +35,7 @@ const addTileEventListeners = () => {
   tiles.forEach((tile) => {
     if (deviceType === "other") {
       tile.addEventListener("mouseup", handleClick);
+      tile.addEventListener("keydown", handleClick);
     } else if (deviceType === "mobile") {
       tile.addEventListener("touchstart", startTouchTimer);
       tile.addEventListener("touchend", handleClick);
@@ -46,6 +47,7 @@ const removeTileEventListeners = () => {
   tiles.forEach((tile) => {
     if (deviceType === "other") {
       tile.removeEventListener("mouseup", handleClick);
+      tile.removeEventListener("keydown", handleClick);
     } else if (deviceType === "mobile") {
       tile.removeEventListener("touchstart", startTouchTimer);
       tile.removeEventListener("touchend", handleClick);
@@ -55,7 +57,7 @@ const removeTileEventListeners = () => {
 
 // lay out 81 tiles
 for (let i = 0; i < 81; i++) {
-  tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
+  tileGrid.innerHTML += `<div tabindex="0" class="tile" id="id${i + 1}"></div>`;
 }
 
 // query selector for tiles
@@ -189,7 +191,7 @@ const toggleFlag = (e) => {
   if (e.target.classList.contains("flagged")) {
     e.target.classList.remove("flagged");
     changeMineCounter("up");
-  } else {
+  } else if (e.target.classList.contains("hidden")) {
     e.target.classList.add("flagged");
     changeMineCounter("down");
   }
@@ -254,7 +256,7 @@ const handleClick = (e) => {
     setTimeout(startCountingSeconds, 1000);
   }
   if (
-    (deviceType === "other" && e.which === 1) ||
+    (deviceType === "other" && (e.which === 1 || e.key === "Enter")) ||
     (deviceType === "mobile" && determineTouchDuration(e) === "short")
   ) {
     findAllMines(10);
@@ -263,7 +265,12 @@ const handleClick = (e) => {
       clearAdjacentBlanks(e.target);
       gameOver(e);
     }
-  } else {
+  } else if (
+    (deviceType === "other" &&
+      ((e.type === "mouseup" && e.which !== 1) ||
+        (e.type === "keydown" && e.key !== "Tab" && e.key !== "Shift"))) ||
+    (deviceType === "mobile" && determineTouchDuration(e) === "long")
+  ) {
     toggleFlag(e);
     findAllMines(10);
   }
