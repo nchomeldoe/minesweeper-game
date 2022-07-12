@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Roboto:wght@300&display=swap");
 .fa-skull-crossbones {
   display: inline;
   justify-self: center;
@@ -57,7 +57,9 @@
 
 .outer-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   margin: 2rem;
 }
 .outer-container .board {
@@ -83,6 +85,23 @@
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 0.1rem;
+}
+.outer-container .level-options {
+  font-family: "Roboto", sans-serif;
+  display: none;
+}
+@media screen and (min-width: 768px) {
+  .outer-container .level-options {
+    display: block;
+    padding: 0.5rem;
+    border: 0.1rem solid gray;
+    background-color: lightgray;
+  }
+  .outer-container .level-options__dropdown {
+    background-color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+  }
 }
 
 * {

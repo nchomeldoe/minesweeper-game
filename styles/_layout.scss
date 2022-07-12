@@ -2,7 +2,9 @@
 
 .outer-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   margin: 2rem;
 
   .board {
@@ -17,7 +19,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.2rem;
-      background-color: $color-seconday;
+      background-color: $color-secondary;
       box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem $color-tertiary inset,
         0.05rem 0.05rem 0.05rem 0.05rem $color-primary inset;
     }
@@ -30,6 +32,21 @@
       grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       gap: 0.1rem;
+    }
+  }
+  .level-options {
+    font-family: $options-font;
+    display: none;
+    @media screen and (min-width: 768px) {
+      display: block;
+      padding: 0.5rem;
+      border: 0.1rem solid $color-primary;
+      background-color: $color-secondary;
+      &__dropdown {
+        background-color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+      }
     }
   }
 }
