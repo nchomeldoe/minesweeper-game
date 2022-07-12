@@ -12,9 +12,9 @@ const mineCounter = document.querySelector(".header__mine-counter");
 const clock = document.querySelector(".header__clock");
 const levelSelector = document.querySelector("#levels");
 
-// set grid size
-let gridSize;
-let numberOfMines;
+// // set grid size
+// let gridSize;
+// let numberOfMines;
 
 // set up grid based on size
 const setRowsAndColumns = (gridSize) => {
@@ -55,7 +55,7 @@ const layTiles = (level = "beginner") => {
   }
 };
 
-const tiles = document.querySelectorAll(".tile");
+// const tiles = document.querySelectorAll(".tile");
 
 // position mines randomly
 const positionMines = () => {
@@ -101,6 +101,38 @@ const findAdjacentTiles = (tile) => {
   return adjacentTileIds;
 };
 
+// set tile colour based on number of adjacent mines
+const setTileColor = (tile) => {
+  switch (tile.innerHTML) {
+    case "1":
+      tile.style.color = "blue";
+      break;
+    case "2":
+      tile.style.color = "green";
+      break;
+    case "3":
+      tile.style.color = "red";
+      break;
+    case "4":
+      tile.style.color = "purple";
+      break;
+    case "5":
+      tile.style.color = "orange";
+      break;
+    case "6":
+      tile.style.color = "hotpink";
+      break;
+    case "7":
+      tile.style.color = "goldenrod";
+      break;
+    case "8":
+      tile.style.color = "magenta";
+      break;
+    default:
+      tile.style.color = "";
+  }
+};
+
 // identify tiles that are next to mines and display how many mines they are next to
 const displayNumbers = (tiles) => {
   tiles.forEach((tile) => {
@@ -114,26 +146,44 @@ const displayNumbers = (tiles) => {
         }
       });
       tile.innerHTML = adjacentMines ? adjacentMines : "";
-      if (tile.innerHTML === "1") {
-        tile.style.color = "blue";
-      } else if (tile.innerHTML === "2") {
-        tile.style.color = "green";
-      } else if (tile.innerHTML === "3") {
-        tile.style.color = "red";
-      } else if (tile.innerHTML === "4") {
-        tile.style.color = "purple";
-      } else if (tile.innerHTML === "5") {
-        tile.style.color = "orange";
-      } else if (tile.innerHTML === "6") {
-        tile.style.color = "hotpink";
-      } else if (tile.innerHTML === "7") {
-        tile.style.color = "goldenrod";
-      } else if (tile.innerHTML === "8") {
-        tile.style.color = "goldenrod";
-      }
+      setTileColor(tile);
     }
   });
 };
+
+// // identify tiles that are next to mines and display how many mines they are next to
+// const displayNumbers = (tiles) => {
+//   tiles.forEach((tile) => {
+//     if (!tile.innerHTML) {
+//       let adjacentMines = 0;
+//       const adjacentTileIds = findAdjacentTiles(tile);
+//       adjacentTileIds.forEach((tileId) => {
+//         let checkedForMines = document.querySelector(tileId);
+//         if (checkedForMines.innerHTML === mineSymbol) {
+//           adjacentMines++;
+//         }
+//       });
+//       tile.innerHTML = adjacentMines ? adjacentMines : "";
+//       if (tile.innerHTML === "1") {
+//         tile.style.color = "blue";
+//       } else if (tile.innerHTML === "2") {
+//         tile.style.color = "green";
+//       } else if (tile.innerHTML === "3") {
+//         tile.style.color = "red";
+//       } else if (tile.innerHTML === "4") {
+//         tile.style.color = "purple";
+//       } else if (tile.innerHTML === "5") {
+//         tile.style.color = "orange";
+//       } else if (tile.innerHTML === "6") {
+//         tile.style.color = "hotpink";
+//       } else if (tile.innerHTML === "7") {
+//         tile.style.color = "goldenrod";
+//       } else if (tile.innerHTML === "8") {
+//         tile.style.color = "goldenrod";
+//       }
+//     }
+//   });
+// };
 
 // detect device type
 const deviceRegEx =
@@ -155,43 +205,34 @@ const determineTouchDuration = (e) => {
   return touchDuration > 600 ? "long" : "short";
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // functions to add and remove event listeners for tiles based on device type
 const addTileEventListeners = (tiles) => {
   tiles.forEach((tile) => {
     if (deviceType === "other") {
-      tile.addEventListener("mouseup", (e) => {
-        handleClick(tiles, e);
-      });
-      tile.addEventListener("keydown", (e) => {
-        handleClick(tiles, e);
-      });
+      tile.addEventListener("mouseup", handleClick);
+      tile.addEventListener("keydown", handleClick);
     } else if (deviceType === "mobile") {
       tile.addEventListener("touchstart", startTouchTimer);
-      tile.addEventListener("touchend", (e) => {
-        handleClick(tiles, e);
-      });
+      tile.addEventListener("touchend", handleClick);
     }
   });
 };
 
 const removeTileEventListeners = (tiles) => {
-  console.log("here");
   tiles.forEach((tile) => {
     if (deviceType === "other") {
-      tile.removeEventListener("mouseup", (e) => {
-        handleClick(tiles, e);
-      });
-      tile.removeEventListener("keydown", (e) => {
-        handleClick(tiles, e);
-      });
+      tile.removeEventListener("mouseup", handleClick);
+      tile.removeEventListener("keydown", handleClick);
     } else if (deviceType === "mobile") {
       tile.removeEventListener("touchstart", startTouchTimer);
-      tile.removeEventListener("touchend", (e) => {
-        handleClick(tiles, e);
-      });
+      tile.removeEventListener("touchend", handleClick);
     }
   });
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // set timer to off
 let timerOn = false;
@@ -204,6 +245,8 @@ const startCountingSeconds = () => {
     setTimeout(startCountingSeconds, 1000);
   }
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // reset function
 const resetAll = (tiles) => {
@@ -228,12 +271,16 @@ const resetAll = (tiles) => {
 
 // set up new game
 const startNewGame = (level = "beginner") => {
+  // let gridSize;
+  // let numberOfMines;
   layTiles(level);
   const tiles = document.querySelectorAll(".tile");
   resetAll(tiles);
   positionMines();
   displayNumbers(tiles);
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // reveal tile
 const revealTile = (e) => {
@@ -267,10 +314,8 @@ const toggleFlag = (e) => {
   }
 };
 
-// find all mines
-const findAllMines = (tiles, number) => {
-  console.dir(tiles);
-  console.log(number);
+// find if all mines have been identified
+const findIfAllMinesIdentified = (number, tiles) => {
   foundCount = 0;
   tiles.forEach((tile) => {
     if (tile.innerHTML === mineSymbol && tile.classList.contains("flagged")) {
@@ -290,7 +335,7 @@ const findAllMines = (tiles, number) => {
   }
 };
 
-// clear adjecent blank or numbered tiles when a blank tile is clicked
+// clear adjacent blank or numbered tiles when a blank tile is clicked
 const clearAdjacentBlanks = (tile) => {
   if (!tile.innerHTML) {
     const adjacentTileIds = findAdjacentTiles(tile);
@@ -303,9 +348,12 @@ const clearAdjacentBlanks = (tile) => {
   }
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // highlight clicked mine in red and reveal all other mines
-const gameOver = (tiles, e) => {
+const gameOver = (e, tiles) => {
   if (e.target.innerHTML === mineSymbol) {
+    console.log("boom");
     e.target.style.backgroundColor = "red";
     removeTileEventListeners(tiles);
     tiles.forEach((tile) => {
@@ -322,7 +370,8 @@ const gameOver = (tiles, e) => {
 };
 
 // apply different functions depending which tile is clicked and which type of event
-const handleClick = (tiles, e) => {
+const handleClick = (e) => {
+  const tiles = e.target.parentElement.childNodes;
   if (clock.innerHTML === "00") {
     timerOn = true;
     setTimeout(startCountingSeconds, 1000);
@@ -331,11 +380,11 @@ const handleClick = (tiles, e) => {
     (deviceType === "other" && (e.which === 1 || e.key === "Enter")) ||
     (deviceType === "mobile" && determineTouchDuration(e) === "short")
   ) {
-    findAllMines(tiles, numberOfMines);
+    findIfAllMinesIdentified(numberOfMines, tiles);
     if (!e.target.classList.contains("flagged")) {
       revealTile(e);
       clearAdjacentBlanks(e.target);
-      gameOver(tiles, e);
+      gameOver(e, tiles);
     }
   } else if (
     (deviceType === "other" &&
@@ -344,7 +393,7 @@ const handleClick = (tiles, e) => {
     (deviceType === "mobile" && determineTouchDuration(e) === "long")
   ) {
     toggleFlag(e);
-    findAllMines(tiles, numberOfMines);
+    findIfAllMinesIdentified(numberOfMines, tiles);
   }
 };
 
