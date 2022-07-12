@@ -6,8 +6,6 @@
 }
 
 .header__button {
-  width: 2.5rem;
-  height: 2.5rem;
   background-color: lightgray;
   display: flex;
   align-items: center;
@@ -18,8 +16,6 @@
   box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem gray inset, 0.1rem 0.1rem 0.1rem 0.1rem gray inset;
 }
 .header__mine-counter, .header__clock {
-  width: 2.5rem;
-  height: 2.5rem;
   background-color: lightgray;
   display: flex;
   align-items: center;
@@ -63,8 +59,6 @@
   margin: 2rem;
 }
 .outer-container .board {
-  width: 15rem;
-  height: 18rem;
   border: 0.2rem solid gray;
   display: grid;
   grid-template-rows: 1fr 5fr;

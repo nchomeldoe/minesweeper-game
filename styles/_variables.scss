@@ -11,8 +11,6 @@ $color-tertiary: white;
 $color-tile-shadow: black;
 
 @mixin header-element($color-shadow: $color-primary) {
-  width: 2.5rem;
-  height: 2.5rem;
   background-color: $color-secondary;
   display: flex;
   align-items: center;

@@ -353,7 +353,6 @@ const clearAdjacentBlanks = (tile) => {
 // highlight clicked mine in red and reveal all other mines
 const gameOver = (e, tiles) => {
   if (e.target.innerHTML === mineSymbol) {
-    console.log("boom");
     e.target.style.backgroundColor = "red";
     removeTileEventListeners(tiles);
     tiles.forEach((tile) => {

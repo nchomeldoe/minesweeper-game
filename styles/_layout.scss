@@ -8,8 +8,6 @@
   margin: 2rem;
 
   .board {
-    width: 15rem;
-    height: 18rem;
     border: 0.2rem solid $color-primary;
     display: grid;
     grid-template-rows: 1fr 5fr;

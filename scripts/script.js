@@ -6,6 +6,7 @@ const mineSymbol = `<i class="fa-solid fa-bomb"></i>`;
 
 // query selectors
 const board = document.querySelector(".board");
+const headerElements = document.querySelectorAll(".header *");
 const tileGrid = document.querySelector(".tile-grid");
 const resetButton = document.querySelector("button");
 const mineCounter = document.querySelector(".header__mine-counter");
@@ -46,22 +47,37 @@ const setRowsAndColumns = (gridSize) => {
   return rowsAndColumns;
 };
 
-const setGridStyles = (minesNo, gridDimension, boardWidth, boardHeight) => {
+const setGridStyles = (
+  minesNo,
+  gridDimension,
+  boardWidth = "15rem",
+  boardHeight = "18rem",
+  headerElementSize = "2.5rem",
+  numbersFontSize = "1.25rem",
+  smileySize = "1rem",
+) => {
   numberOfMines = minesNo;
   gridSize = gridDimension;
   tileGrid.style.gridTemplateRows = setRowsAndColumns(gridDimension);
   tileGrid.style.gridTemplateColumns = setRowsAndColumns(gridDimension);
   board.style.width = boardWidth;
   board.style.height = boardHeight;
+  headerElements.forEach((element) => {
+    element.style.width = headerElementSize;
+    element.style.height = headerElementSize;
+  });
+  mineCounter.style.fontSize = numbersFontSize;
+  clock.style.fontSize = numbersFontSize;
+  resetButton.style.fontSize = smileySize;
 };
 
 const setGridSize = (level = "beginner") => {
   if (level === "beginner") {
-    setGridStyles(10, 9, "15rem", "18rem");
+    setGridStyles(10, 9);
   } else if (level === "intermediate") {
-    setGridStyles(30, 12, "20rem", "23rem");
+    setGridStyles(30, 12, "20rem", "23rem", "3.2rem", "1.75rem", "1.2rem");
   } else if (level === "advanced") {
-    setGridStyles(50, 18, "30rem", "33rem");
+    setGridStyles(50, 18, "30rem", "33rem", "4.8rem", "2rem", "1.4rem");
   }
 };
 
@@ -124,7 +140,6 @@ const findAdjacentTiles = (tile) => {
 const setTileColor = (tile) => {
   switch (tile.innerHTML) {
     case "1":
-      console.log(tile.innerHTML);
       tile.style.color = "blue";
       break;
     case "2":
@@ -306,7 +321,6 @@ const findIfAllMinesIdentified = (number, tiles) => {
 // highlight clicked mine in red and reveal all other mines
 const gameOver = (e, tiles) => {
   if (e.target.innerHTML === mineSymbol) {
-    console.log("boom");
     e.target.style.backgroundColor = "red";
     removeTileEventListeners(tiles);
     tiles.forEach((tile) => {
