@@ -11,17 +11,36 @@
 </head>
 
 <body class=outer-container>
+  <div class="instructions">
+    <h1 class="instructions__heading">Minesweeper</h1>
+    <h2 class="instructions__subheading" tabindex="0">Flag all the hidden mines to win!
+      <i class="fa-solid fa-circle-info instructions__help"></i>
+    </h2>
+
+    <div class="instructions__dropdown">
+      <p class="instructions__paragraph">Using mouse: left click to reveal and right click to flag a tile.</p>
+      <p class="instructions__paragraph"> Using keyboard: Tab and Shift + Tab to move backwards and forwards
+        through the tiles, Enter to reveal and
+        any other key to flag a tile.</p>
+      <p class="instructions__paragraph">Playing on a phone: short press to reveal and long press to flag a
+        tile.</p>
+    </div>
+  </div>
+
   <div class="board">
     <div class="header">
       <div class="header__mine-counter"></div>
       <button class="header__button"></button>
       <div class="header__clock"></div>
     </div>
+
     <div class=" tile-grid">
     </div>
   </div>
+
   <div class="level-options">
     <label class="level-options__label" for="levels">Choose a level:</label>
+
     <select class="level-options__dropdown" name="levels" id="levels">
       <option class="level-options__item" value="beginner">Beginner</option>
       <option class="level-options__item" value="intermediate">Intermediate</option>

@@ -7,6 +7,35 @@
   gap: 1rem;
   margin: 2rem;
 
+  .instructions {
+    text-align: center;
+    font-family: $font-primary;
+    * {
+      margin-bottom: 0.5rem;
+    }
+    &__heading {
+      font-size: 1.5rem;
+    }
+    &__subheading {
+      font-size: 1.2rem;
+      position: relative;
+      &:active,
+      &:focus + .instructions__dropdown {
+        display: block;
+      }
+    }
+    &__dropdown {
+      display: none;
+      position: absolute;
+      background-color: $color-tertiary;
+      width: 16rem;
+      box-shadow: 0.2rem 0.2rem 1rem $color-shadow;
+      padding: 0.75rem 1rem;
+      z-index: 1;
+      font-size: 0.8rem;
+    }
+  }
+
   .board {
     border: 0.2rem solid $color-primary;
     display: grid;
@@ -33,7 +62,7 @@
     }
   }
   .level-options {
-    font-family: $options-font;
+    font-family: $font-secondary;
     display: none;
     @media screen and (min-width: 768px) {
       display: block;

@@ -57,6 +57,33 @@
   gap: 1rem;
   margin: 2rem;
 }
+.outer-container .instructions {
+  text-align: center;
+  font-family: "Inconsolata", monospace;
+}
+.outer-container .instructions * {
+  margin-bottom: 0.5rem;
+}
+.outer-container .instructions__heading {
+  font-size: 1.5rem;
+}
+.outer-container .instructions__subheading {
+  font-size: 1.2rem;
+  position: relative;
+}
+.outer-container .instructions__subheading:active, .outer-container .instructions__subheading:focus + .instructions__dropdown {
+  display: block;
+}
+.outer-container .instructions__dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  width: 16rem;
+  box-shadow: 0.2rem 0.2rem 1rem black;
+  padding: 0.75rem 1rem;
+  z-index: 1;
+  font-size: 0.8rem;
+}
 .outer-container .board {
   border: 0.2rem solid gray;
   display: grid;

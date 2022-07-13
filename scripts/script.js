@@ -35,6 +35,10 @@ const determineTouchDuration = (e) => {
 
 // GAME SETUP
 
+// variables for grid size and number of mines
+let gridSize;
+let numberOfMines;
+
 // timer for clock on board - set to off initially
 let timerOn = false;
 
@@ -48,8 +52,7 @@ const setRowsAndColumns = (gridSize) => {
 };
 
 const setGridStyles = (
-  minesNo,
-  gridDimension,
+  gridSize = 9,
   boardWidth = "15rem",
   boardHeight = "18rem",
   headerElementDimension = "2.5rem",
@@ -57,10 +60,8 @@ const setGridStyles = (
   numbersFontSize = "1.25rem",
   smileySize = "1rem",
 ) => {
-  numberOfMines = minesNo;
-  gridSize = gridDimension;
-  tileGrid.style.gridTemplateRows = setRowsAndColumns(gridDimension);
-  tileGrid.style.gridTemplateColumns = setRowsAndColumns(gridDimension);
+  tileGrid.style.gridTemplateRows = setRowsAndColumns(gridSize);
+  tileGrid.style.gridTemplateColumns = setRowsAndColumns(gridSize);
   board.style.width = boardWidth;
   board.style.height = boardHeight;
   headerElements.forEach((element) => {
@@ -76,11 +77,14 @@ const setGridStyles = (
 
 const setGridSize = (level = "beginner") => {
   if (level === "beginner") {
-    setGridStyles(10, 9);
+    gridSize = 9;
+    numberOfMines = 10;
+    setGridStyles();
   } else if (level === "intermediate") {
+    gridSize = 12;
+    numberOfMines = 24;
     setGridStyles(
-      30,
-      12,
+      gridSize,
       "20rem",
       "23rem",
       "3.2rem",
@@ -89,9 +93,10 @@ const setGridSize = (level = "beginner") => {
       "1.2rem",
     );
   } else if (level === "advanced") {
+    gridSize = 18;
+    numberOfMines = 60;
     setGridStyles(
-      50,
-      18,
+      gridSize,
       "30rem",
       "33rem",
       "4.8rem",
@@ -107,9 +112,7 @@ const layTiles = (level = "beginner") => {
   tileGrid.innerHTML = "";
   setGridSize(level);
   for (let i = 0; i < gridSize * gridSize; i++) {
-    tileGrid.innerHTML += `<div tabindex="0" class="tile" id="id${
-      i + 1
-    }"></div>`;
+    tileGrid.innerHTML += `<div class="tile" id="id${i + 1}"></div>`;
   }
 };
 
@@ -243,6 +246,8 @@ const resetAll = (tiles) => {
     tile.innerHTML = "";
     tile.style.color = "";
     tile.style.backgroundColor = "";
+    tile.tabIndex = "0";
+    console.dir(tile);
     if (!tile.classList.contains("hidden")) {
       tile.classList.add("hidden");
     }
@@ -312,6 +317,7 @@ const changeMineCounter = (direction) => {
 // reveal tile
 const revealTile = (e) => {
   e.target.classList.remove("hidden");
+  e.target.tabIndex = "-1";
 };
 
 // apply or remove warning symbol
@@ -331,8 +337,12 @@ const clearAdjacentBlanks = (tile) => {
     const adjacentTileIds = findAdjacentTiles(tile);
     adjacentTileIds.forEach((tileId) => {
       let checkedForBlanks = document.querySelector(tileId);
-      if (checkedForBlanks.innerHTML !== mineSymbol) {
+      if (
+        checkedForBlanks.innerHTML !== mineSymbol &&
+        !checkedForBlanks.classList.contains("flagged")
+      ) {
         checkedForBlanks.classList.remove("hidden");
+        checkedForBlanks.tabIndex = "-1";
       }
     });
   }
@@ -365,6 +375,7 @@ const gameOver = (e, tiles) => {
     e.target.style.backgroundColor = "red";
     removeTileEventListeners(tiles);
     tiles.forEach((tile) => {
+      tile.tabIndex = "-1";
       if (
         tile.innerHTML === mineSymbol &&
         !tile.classList.contains("flagged")
