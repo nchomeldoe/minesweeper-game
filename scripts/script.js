@@ -361,6 +361,7 @@ const findIfAllMinesIdentified = (number, tiles) => {
     timerOn = false;
     removeTileEventListeners(tiles);
     tiles.forEach((tile) => {
+      tile.tabIndex = "-1";
       if (!tile.classList.contains("flagged")) {
         tile.classList.remove("hidden");
         tile.style.backgroundColor = "palegreen";
