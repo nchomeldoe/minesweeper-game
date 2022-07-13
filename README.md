@@ -8,6 +8,6 @@ If playing on a phone, short press to reveal a tile and long press to flag a til
 
 Screenshots:
 
-![Minesweeper image 1] (./assets/minesweeper1.png)
+![Minesweeper image 1](./assets/minesweeper1.png)
 
-![Minesweeper image 2] (./assets/minesweeper2.png)
+![Minesweeper image 2](./assets/minesweeper2.png)
