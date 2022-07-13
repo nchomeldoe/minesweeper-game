@@ -22,7 +22,6 @@
   justify-content: center;
   box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset, 0.1rem 0.1rem 0.1rem 0.1rem gray inset;
   font-family: "Inconsolata", monospace;
-  font-size: 20px;
 }
 
 .tile {
@@ -31,7 +30,7 @@
   align-items: center;
   justify-content: center;
   font-family: "Inconsolata", monospace;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 .tile.hidden {
   background-color: gray;

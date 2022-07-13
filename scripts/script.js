@@ -381,10 +381,6 @@ const gameOver = (e, tiles) => {
 const handleClick = (e) => {
   const tiles = e.target.parentElement.childNodes;
   startCountingSeconds();
-  // if (clock.innerHTML === "00") {
-  //   timerOn = true;
-  //   setTimeout(startCountingSeconds, 1000);
-  // }
   if (
     (deviceType === "other" && (e.which === 1 || e.key === "Enter")) ||
     (deviceType === "mobile" && determineTouchDuration(e) === "short")
