@@ -6,8 +6,6 @@
 }
 
 .header__button {
-  width: 2.5rem;
-  height: 2.5rem;
   background-color: lightgray;
   display: flex;
   align-items: center;
@@ -18,15 +16,12 @@
   box-shadow: -0.05rem -0.05rem 0.05rem 0.05rem gray inset, 0.1rem 0.1rem 0.1rem 0.1rem gray inset;
 }
 .header__mine-counter, .header__clock {
-  width: 2.5rem;
-  height: 2.5rem;
   background-color: lightgray;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: -0.1rem -0.1rem 0.1rem 0.1rem gray inset, 0.1rem 0.1rem 0.1rem 0.1rem gray inset;
   font-family: "Inconsolata", monospace;
-  font-size: 20px;
 }
 
 .tile {
@@ -35,7 +30,7 @@
   align-items: center;
   justify-content: center;
   font-family: "Inconsolata", monospace;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 .tile.hidden {
   background-color: gray;
@@ -62,9 +57,73 @@
   gap: 1rem;
   margin: 2rem;
 }
+.outer-container .instructions {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  font-family: "Inconsolata", monospace;
+  position: relative;
+}
+.outer-container .instructions * {
+  margin-bottom: 0.5rem;
+}
+.outer-container .instructions__heading {
+  font-size: 1.5rem;
+}
+@media screen and (min-width: 768px) {
+  .outer-container .instructions__heading {
+    font-size: 1.8rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .outer-container .instructions__heading {
+    font-size: 2rem;
+  }
+}
+.outer-container .instructions__help {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
+}
+.outer-container .instructions__help:active, .outer-container .instructions__help:focus + .instructions__dropdown {
+  display: block;
+}
+@media screen and (min-width: 768px) {
+  .outer-container .instructions__help {
+    font-size: 1.4rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .outer-container .instructions__help {
+    font-size: 1.6rem;
+  }
+}
+.outer-container .instructions__dropdown {
+  display: none;
+  position: absolute;
+  top: 2rem;
+  background-color: white;
+  box-shadow: 0.2rem 0.2rem 1rem black;
+  padding: 0.75rem 1rem;
+  z-index: 1;
+  font-size: 0.8rem;
+}
+@media screen and (min-width: 768px) {
+  .outer-container .instructions__dropdown {
+    width: 20rem;
+    font-size: 1rem;
+    right: -4rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .outer-container .instructions__dropdown {
+    width: 24rem;
+    font-size: 1.2rem;
+    right: -6rem;
+  }
+}
 .outer-container .board {
-  width: 15rem;
-  height: 18rem;
   border: 0.2rem solid gray;
   display: grid;
   grid-template-rows: 1fr 5fr;

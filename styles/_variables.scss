@@ -1,18 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Roboto:wght@300&display=swap");
 
-$numbers-font: "Inconsolata", monospace;
-$numbers-font-size: 20px;
+$font-primary: "Inconsolata", monospace;
+$font-primary-size: 1.25rem;
 
-$options-font: "Roboto", sans-serif;
+$font-secondary: "Roboto", sans-serif;
 
 $color-primary: gray;
 $color-secondary: lightgray;
 $color-tertiary: white;
-$color-tile-shadow: black;
+$color-shadow: black;
 
 @mixin header-element($color-shadow: $color-primary) {
-  width: 2.5rem;
-  height: 2.5rem;
   background-color: $color-secondary;
   display: flex;
   align-items: center;

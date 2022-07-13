@@ -7,9 +7,65 @@
   gap: 1rem;
   margin: 2rem;
 
+  .instructions {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-family: $font-primary;
+    position: relative;
+    * {
+      margin-bottom: 0.5rem;
+    }
+    &__heading {
+      font-size: 1.5rem;
+      @media screen and (min-width: 768px) {
+        font-size: 1.8rem;
+      }
+      @media screen and (min-width: 1024px) {
+        font-size: 2rem;
+      }
+    }
+
+    &__help {
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      margin-top: 0.2rem;
+      cursor: pointer;
+      &:active,
+      &:focus + .instructions__dropdown {
+        display: block;
+      }
+      @media screen and (min-width: 768px) {
+        font-size: 1.4rem;
+      }
+      @media screen and (min-width: 1024px) {
+        font-size: 1.6rem;
+      }
+    }
+
+    &__dropdown {
+      display: none;
+      position: absolute;
+      top: 2rem;
+      background-color: $color-tertiary;
+      box-shadow: 0.2rem 0.2rem 1rem $color-shadow;
+      padding: 0.75rem 1rem;
+      z-index: 1;
+      font-size: 0.8rem;
+      @media screen and (min-width: 768px) {
+        width: 20rem;
+        font-size: 1rem;
+        right: -4rem;
+      }
+      @media screen and (min-width: 1024px) {
+        width: 24rem;
+        font-size: 1.2rem;
+        right: -6rem;
+      }
+    }
+  }
+
   .board {
-    width: 15rem;
-    height: 18rem;
     border: 0.2rem solid $color-primary;
     display: grid;
     grid-template-rows: 1fr 5fr;
@@ -34,8 +90,9 @@
       gap: 0.1rem;
     }
   }
+
   .level-options {
-    font-family: $options-font;
+    font-family: $font-secondary;
     display: none;
     @media screen and (min-width: 768px) {
       display: block;
