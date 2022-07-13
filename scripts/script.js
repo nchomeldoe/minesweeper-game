@@ -247,7 +247,6 @@ const resetAll = (tiles) => {
     tile.style.color = "";
     tile.style.backgroundColor = "";
     tile.tabIndex = "0";
-    console.dir(tile);
     if (!tile.classList.contains("hidden")) {
       tile.classList.add("hidden");
     }

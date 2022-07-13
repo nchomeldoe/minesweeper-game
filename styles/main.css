@@ -59,7 +59,10 @@
 }
 .outer-container .instructions {
   text-align: center;
+  display: flex;
+  align-items: center;
   font-family: "Inconsolata", monospace;
+  position: relative;
 }
 .outer-container .instructions * {
   margin-bottom: 0.5rem;
@@ -67,22 +70,58 @@
 .outer-container .instructions__heading {
   font-size: 1.5rem;
 }
-.outer-container .instructions__subheading {
-  font-size: 1.2rem;
-  position: relative;
+@media screen and (min-width: 768px) {
+  .outer-container .instructions__heading {
+    font-size: 1.8rem;
+  }
 }
-.outer-container .instructions__subheading:active, .outer-container .instructions__subheading:focus + .instructions__dropdown {
+@media screen and (min-width: 1024px) {
+  .outer-container .instructions__heading {
+    font-size: 2rem;
+  }
+}
+.outer-container .instructions__help {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
+}
+.outer-container .instructions__help:active, .outer-container .instructions__help:focus + .instructions__dropdown {
   display: block;
+}
+@media screen and (min-width: 768px) {
+  .outer-container .instructions__help {
+    font-size: 1.4rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .outer-container .instructions__help {
+    font-size: 1.6rem;
+  }
 }
 .outer-container .instructions__dropdown {
   display: none;
   position: absolute;
+  top: 2rem;
   background-color: white;
-  width: 16rem;
   box-shadow: 0.2rem 0.2rem 1rem black;
   padding: 0.75rem 1rem;
   z-index: 1;
   font-size: 0.8rem;
+}
+@media screen and (min-width: 768px) {
+  .outer-container .instructions__dropdown {
+    width: 20rem;
+    font-size: 1rem;
+    right: -4rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .outer-container .instructions__dropdown {
+    width: 24rem;
+    font-size: 1.2rem;
+    right: -6rem;
+  }
 }
 .outer-container .board {
   border: 0.2rem solid gray;
