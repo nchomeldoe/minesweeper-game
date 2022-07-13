@@ -52,7 +52,8 @@ const setGridStyles = (
   gridDimension,
   boardWidth = "15rem",
   boardHeight = "18rem",
-  headerElementSize = "2.5rem",
+  headerElementDimension = "2.5rem",
+  counterAndClockWidth = "4.5rem",
   numbersFontSize = "1.25rem",
   smileySize = "1rem",
 ) => {
@@ -63,11 +64,13 @@ const setGridStyles = (
   board.style.width = boardWidth;
   board.style.height = boardHeight;
   headerElements.forEach((element) => {
-    element.style.width = headerElementSize;
-    element.style.height = headerElementSize;
+    element.style.height = headerElementDimension;
   });
+  mineCounter.style.width = counterAndClockWidth;
   mineCounter.style.fontSize = numbersFontSize;
+  clock.style.width = counterAndClockWidth;
   clock.style.fontSize = numbersFontSize;
+  resetButton.style.width = headerElementDimension;
   resetButton.style.fontSize = smileySize;
 };
 
@@ -75,9 +78,27 @@ const setGridSize = (level = "beginner") => {
   if (level === "beginner") {
     setGridStyles(10, 9);
   } else if (level === "intermediate") {
-    setGridStyles(30, 12, "20rem", "23rem", "3.2rem", "1.75rem", "1.2rem");
+    setGridStyles(
+      30,
+      12,
+      "20rem",
+      "23rem",
+      "3.2rem",
+      "5.2rem",
+      "1.5rem",
+      "1.2rem",
+    );
   } else if (level === "advanced") {
-    setGridStyles(50, 18, "30rem", "33rem", "4.8rem", "2rem", "1.4rem");
+    setGridStyles(
+      50,
+      18,
+      "30rem",
+      "33rem",
+      "4.8rem",
+      "6.8rem",
+      "2rem",
+      "1.4rem",
+    );
   }
 };
 
@@ -217,7 +238,7 @@ const resetAll = (tiles) => {
   timerOn = false;
   mineCounter.innerHTML = `${numberOfMines}`;
   mineCounter.style.backgroundColor = "";
-  clock.innerHTML = "00";
+  clock.innerHTML = "00:00";
   tiles.forEach((tile) => {
     tile.innerHTML = "";
     tile.style.color = "";
@@ -243,12 +264,32 @@ const startNewGame = (level = "beginner") => {
 
 // GAME PLAY
 
-// function for clock counting up in seconds
-const startCountingSeconds = () => {
+// functions for clock counting up in seconds
+
+const countSeconds = (startTime) => {
   if (timerOn) {
-    const newTime = Number(clock.innerHTML) + 1;
-    clock.innerHTML = newTime < 10 ? `0${newTime}` : newTime;
-    setTimeout(startCountingSeconds, 1000);
+    let timeNow = Math.floor(Date.now() / 1000);
+    let timePassed = timeNow - startTime;
+    let minutes = Math.floor(timePassed / 60);
+    if (minutes >= 0 && minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+    let seconds = Math.floor(timePassed % 60);
+    if (seconds >= 0 && seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+    clock.innerHTML = `${minutes}:${seconds}`;
+    setTimeout(() => {
+      countSeconds(startTime);
+    }, 200);
+  }
+};
+
+const startCountingSeconds = () => {
+  if (clock.innerHTML === "00:00") {
+    timerOn = true;
+    const startTime = Math.floor(Date.now() / 1000);
+    countSeconds(startTime);
   }
 };
 
@@ -339,10 +380,11 @@ const gameOver = (e, tiles) => {
 // apply different functions depending which tile is clicked and which type of event
 const handleClick = (e) => {
   const tiles = e.target.parentElement.childNodes;
-  if (clock.innerHTML === "00") {
-    timerOn = true;
-    setTimeout(startCountingSeconds, 1000);
-  }
+  startCountingSeconds();
+  // if (clock.innerHTML === "00") {
+  //   timerOn = true;
+  //   setTimeout(startCountingSeconds, 1000);
+  // }
   if (
     (deviceType === "other" && (e.which === 1 || e.key === "Enter")) ||
     (deviceType === "mobile" && determineTouchDuration(e) === "short")
@@ -365,6 +407,9 @@ const handleClick = (e) => {
 };
 
 //event listeners
+board.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+});
 resetButton.addEventListener("click", startNewGame);
 levelSelector.addEventListener("change", (e) => {
   startNewGame(e.target.value);
