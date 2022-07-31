@@ -1,17 +1,16 @@
-// innerHTML for various elements
-const smileyFace = `<i class="fa-solid fa-face-smile fa-xl"></i>`;
-const victoryFace = `<i class="fa-solid fa-face-laugh-beam fa-xl"></i>`;
-const defeatFace = `<i class="fa-solid fa-skull fa-xl"></i>`;
-const mineSymbol = `<i class="fa-solid fa-bomb"></i>`;
+import { smileyFace, victoryFace, defeatFace, mineSymbol } from "./icons.js";
 
-// query selectors
-const board = document.querySelector(".board");
-const headerElements = document.querySelectorAll(".header *");
-const tileGrid = document.querySelector(".tile-grid");
-const resetButton = document.querySelector("button");
-const mineCounter = document.querySelector(".header__mine-counter");
-const clock = document.querySelector(".header__clock");
-const levelSelector = document.querySelector("#levels");
+import {
+  board,
+  headerElements,
+  tileGrid,
+  resetButton,
+  mineCounter,
+  clock,
+  levelSelector,
+} from "./dom-refs.js";
+
+import { setRowsAndColumns, setTileColor, revealTile } from "./helpers.js";
 
 // detect device type
 const deviceRegEx =
@@ -42,15 +41,7 @@ let numberOfMines;
 // timer for clock on board - set to off initially
 let timerOn = false;
 
-// set up grid based on size
-const setRowsAndColumns = (gridSize) => {
-  let rowsAndColumns = "1fr";
-  for (let i = 1; i < gridSize; i++) {
-    rowsAndColumns += " 1fr";
-  }
-  return rowsAndColumns;
-};
-
+// set styles based on size of grid
 const setGridStyles = (
   gridSize = 9,
   boardWidth = "15rem",
@@ -80,7 +71,9 @@ const setGridSize = (level = "beginner") => {
     gridSize = 9;
     numberOfMines = 10;
     setGridStyles();
-  } else if (level === "intermediate") {
+    return;
+  }
+  if (level === "intermediate") {
     gridSize = 12;
     numberOfMines = 24;
     setGridStyles(
@@ -92,7 +85,9 @@ const setGridSize = (level = "beginner") => {
       "1.5rem",
       "1.2rem",
     );
-  } else if (level === "advanced") {
+    return;
+  }
+  if (level === "advanced") {
     gridSize = 18;
     numberOfMines = 60;
     setGridStyles(
@@ -121,6 +116,7 @@ const positionMines = () => {
   const mineLocations = [];
   for (let i = 0; mineLocations.length < numberOfMines; i++) {
     let randomNum = Math.floor(Math.random() * gridSize * gridSize + 1);
+    // ensure positions are not duplicated
     if (!mineLocations.includes(randomNum)) {
       mineLocations.push(randomNum);
     }
@@ -133,12 +129,17 @@ const positionMines = () => {
 
 // find adjacent tiles depending on position of original tile
 const findAdjacentTiles = (tile) => {
+  // get number corresopnding to locaiton from tile id
   const tileIdNo = Number(tile.id.substring(2));
+  // find the distances to adjacent tiles depending on the tile's position in the grid
   const tileDistances = !(tileIdNo % gridSize)
-    ? [-(gridSize + 1), -gridSize, -1, gridSize - 1, gridSize]
+    ? // 1. if tile is at the end of a row
+      [-(gridSize + 1), -gridSize, -1, gridSize - 1, gridSize]
     : tileIdNo % gridSize === 1
-    ? [-gridSize, -(gridSize - 1), 1, gridSize, gridSize + 1]
-    : [
+    ? //2. if tile is at the start of a row
+      [-gridSize, -(gridSize - 1), 1, gridSize, gridSize + 1]
+    : //3. if tile is in the middle of a row
+      [
         -(gridSize + 1),
         -gridSize,
         -(gridSize - 1),
@@ -149,6 +150,7 @@ const findAdjacentTiles = (tile) => {
         gridSize + 1,
       ];
   const adjacentTileIds = [];
+  //return the adjacent tile ids (which are within the grid)
   tileDistances.forEach((distance) => {
     if (
       tileIdNo + distance > 0 &&
@@ -158,38 +160,6 @@ const findAdjacentTiles = (tile) => {
     }
   });
   return adjacentTileIds;
-};
-
-// set tile colour based on number of adjacent mines
-const setTileColor = (tile) => {
-  switch (tile.innerHTML) {
-    case "1":
-      tile.style.color = "blue";
-      break;
-    case "2":
-      tile.style.color = "green";
-      break;
-    case "3":
-      tile.style.color = "red";
-      break;
-    case "4":
-      tile.style.color = "purple";
-      break;
-    case "5":
-      tile.style.color = "orange";
-      break;
-    case "6":
-      tile.style.color = "hotpink";
-      break;
-    case "7":
-      tile.style.color = "goldenrod";
-      break;
-    case "8":
-      tile.style.color = "magenta";
-      break;
-    default:
-      tile.style.color = "";
-  }
 };
 
 // identify tiles that are next to mines and display how many mines they are next to
@@ -272,12 +242,15 @@ const startNewGame = (level = "beginner") => {
 
 const countSeconds = (startTime) => {
   if (timerOn) {
+    // find time passed since start of game
     let timeNow = Math.floor(Date.now() / 1000);
     let timePassed = timeNow - startTime;
+    //find minutes and display in double digits
     let minutes = Math.floor(timePassed / 60);
     if (minutes >= 0 && minutes < 10) {
       minutes = `0${minutes}`;
     }
+    //find seconds and display in double digits
     let seconds = Math.floor(timePassed % 60);
     if (seconds >= 0 && seconds < 10) {
       seconds = `0${seconds}`;
@@ -292,6 +265,7 @@ const countSeconds = (startTime) => {
 const startCountingSeconds = () => {
   if (clock.innerHTML === "00:00") {
     timerOn = true;
+    //get game start time if clock has not yet started
     const startTime = Math.floor(Date.now() / 1000);
     countSeconds(startTime);
   }
@@ -313,12 +287,6 @@ const changeMineCounter = (direction) => {
   }
 };
 
-// reveal tile
-const revealTile = (e) => {
-  e.target.classList.remove("hidden");
-  e.target.tabIndex = "-1";
-};
-
 // apply or remove warning symbol
 const toggleFlag = (e) => {
   if (e.target.classList.contains("flagged")) {
@@ -333,9 +301,11 @@ const toggleFlag = (e) => {
 // clear adjacent blank or numbered tiles when a blank tile is clicked
 const clearAdjacentBlanks = (tile) => {
   if (!tile.innerHTML) {
+    //find adjacent tiles
     const adjacentTileIds = findAdjacentTiles(tile);
     adjacentTileIds.forEach((tileId) => {
       let checkedForBlanks = document.querySelector(tileId);
+      //if the adjacent tile does not contain a mine and is not flagged, reveal it and stop it from being tabbed to
       if (
         checkedForBlanks.innerHTML !== mineSymbol &&
         !checkedForBlanks.classList.contains("flagged")
@@ -349,12 +319,14 @@ const clearAdjacentBlanks = (tile) => {
 
 // find if all mines have been identified
 const findIfAllMinesIdentified = (number, tiles) => {
-  foundCount = 0;
+  let foundCount = 0;
+  //if a tile has been correctly flagged, add it to found count
   tiles.forEach((tile) => {
     if (tile.innerHTML === mineSymbol && tile.classList.contains("flagged")) {
       foundCount += 1;
     }
   });
+  //if found count is correct, smiley face, all tiles revealed and background set to green
   if (foundCount === number) {
     resetButton.innerHTML = victoryFace;
     timerOn = false;
@@ -371,6 +343,7 @@ const findIfAllMinesIdentified = (number, tiles) => {
 
 // highlight clicked mine in red and reveal all other mines
 const gameOver = (e, tiles) => {
+  //if mine tile is clicked on, set background of that tile to red, reveal other mines and set defeat face
   if (e.target.innerHTML === mineSymbol) {
     e.target.style.backgroundColor = "red";
     removeTileEventListeners(tiles);
@@ -397,6 +370,7 @@ const handleClick = (e) => {
     (deviceType === "mobile" && determineTouchDuration(e) === "short")
   ) {
     findIfAllMinesIdentified(numberOfMines, tiles);
+    //for tiles that are not flagged, check them for mines and reveal on click
     if (!e.target.classList.contains("flagged")) {
       revealTile(e);
       clearAdjacentBlanks(e.target);
@@ -408,6 +382,7 @@ const handleClick = (e) => {
         (e.type === "keydown" && e.key !== "Tab" && e.key !== "Shift"))) ||
     (deviceType === "mobile" && determineTouchDuration(e) === "long")
   ) {
+    //toggle warning symbol and check if all mines have been flagged
     toggleFlag(e);
     findIfAllMinesIdentified(numberOfMines, tiles);
   }
